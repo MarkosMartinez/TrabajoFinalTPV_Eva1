@@ -104,7 +104,7 @@ namespace TrabajoFinalTPV_Eva1
             listViewUsuarios.Columns.Add("Tipo", 50);
 
             // Conectar a la base de datos de Access
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BBDD", "Sociedad.accdb")};";
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -128,7 +128,7 @@ namespace TrabajoFinalTPV_Eva1
         {
             if (userSeleecionado != null)
             {
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BBDD", "Sociedad.accdb")};";
+                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
@@ -153,7 +153,7 @@ namespace TrabajoFinalTPV_Eva1
                     MessageBox.Show("Por favor, rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BBDD", "Sociedad.accdb")};";
+                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
@@ -190,7 +190,7 @@ namespace TrabajoFinalTPV_Eva1
                     MessageBox.Show("Por favor, rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BBDD", "Sociedad.accdb")};";
+                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();

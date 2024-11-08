@@ -7,7 +7,7 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class Form1 : Form
     {
-        private string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BBDD", "Sociedad.accdb")};";
+        private string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
 
         public Form1()
         {
