@@ -1,36 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.OleDb;
 
 namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
-
-        private void listViewUsuarios_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listViewUsuarios.SelectedItems.Count == 1)
-            {
-                var selectedItem = listViewUsuarios.SelectedItems[0];
-                userSeleecionado = selectedItem.SubItems[0].Text;
-                btnGUAddModify.Text = "Modificar";
-                textBoxGUNombre.Text = selectedItem.SubItems[0].Text;
-                checkBoxGUAdmin.Checked = selectedItem.SubItems[1].Text == "admin";
-                btnGUEliminar.Enabled = true;
-                textBoxGUPass.Text = string.Empty;
-            }
-            else
-            {
-                userSeleecionado = null;
-                btnGUAddModify.Text = "Añadir";
-                textBoxGUNombre.Text = string.Empty;
-                checkBoxGUAdmin.Checked = false;
-                btnGUEliminar.Enabled = false;
-            }
-        }
 
         private void cargarUsuarios()
         {
@@ -58,6 +31,28 @@ namespace TrabajoFinalTPV_Eva1
                         }
                     }
                 }
+            }
+        }
+
+        private void listViewUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewUsuarios.SelectedItems.Count == 1)
+            {
+                var selectedItem = listViewUsuarios.SelectedItems[0];
+                userSeleecionado = selectedItem.SubItems[0].Text;
+                btnGUAddModify.Text = "Modificar";
+                textBoxGUNombre.Text = selectedItem.SubItems[0].Text;
+                checkBoxGUAdmin.Checked = selectedItem.SubItems[1].Text == "admin";
+                btnGUEliminar.Enabled = true;
+                textBoxGUPass.Text = string.Empty;
+            }
+            else
+            {
+                userSeleecionado = null;
+                btnGUAddModify.Text = "Añadir";
+                textBoxGUNombre.Text = string.Empty;
+                checkBoxGUAdmin.Checked = false;
+                btnGUEliminar.Enabled = false;
             }
         }
 

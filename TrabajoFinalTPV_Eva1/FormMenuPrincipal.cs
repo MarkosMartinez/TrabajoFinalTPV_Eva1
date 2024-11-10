@@ -37,6 +37,7 @@ namespace TrabajoFinalTPV_Eva1
             groupBoxConsumos.Visible = false;
             groupBoxReservas.Visible = false;
             groupBoxUsuarios.Visible = false;
+            cargarAlmacen();
         }
 
         private void btnConsumos_Click(object sender, EventArgs e)
