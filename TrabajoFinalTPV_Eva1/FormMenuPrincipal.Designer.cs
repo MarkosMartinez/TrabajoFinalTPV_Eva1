@@ -93,7 +93,7 @@
             // 
             // btnUsuarios
             // 
-            btnUsuarios.Location = new Point(10, 131);
+            btnUsuarios.Location = new Point(10, 140);
             btnUsuarios.Name = "btnUsuarios";
             btnUsuarios.Size = new Size(126, 23);
             btnUsuarios.TabIndex = 3;
@@ -104,7 +104,7 @@
             // 
             // btnAlmacen
             // 
-            btnAlmacen.Location = new Point(10, 93);
+            btnAlmacen.Location = new Point(10, 97);
             btnAlmacen.Name = "btnAlmacen";
             btnAlmacen.Size = new Size(126, 23);
             btnAlmacen.TabIndex = 2;
@@ -224,10 +224,10 @@
             // 
             // textBoxGAPrecio
             // 
-            textBoxGAPrecio.Location = new Point(556, 60);
+            textBoxGAPrecio.Location = new Point(548, 60);
             textBoxGAPrecio.Name = "textBoxGAPrecio";
             textBoxGAPrecio.PlaceholderText = "Precio";
-            textBoxGAPrecio.Size = new Size(67, 23);
+            textBoxGAPrecio.Size = new Size(75, 23);
             textBoxGAPrecio.TabIndex = 5;
             // 
             // textBoxGACantidad
@@ -235,7 +235,7 @@
             textBoxGACantidad.Location = new Point(448, 60);
             textBoxGACantidad.Name = "textBoxGACantidad";
             textBoxGACantidad.PlaceholderText = "Cantidad";
-            textBoxGACantidad.Size = new Size(67, 23);
+            textBoxGACantidad.Size = new Size(75, 23);
             textBoxGACantidad.TabIndex = 4;
             // 
             // textBoxGAProducto

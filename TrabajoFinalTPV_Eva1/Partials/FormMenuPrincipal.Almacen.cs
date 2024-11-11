@@ -166,7 +166,7 @@ namespace TrabajoFinalTPV_Eva1
 
                     string sourceFilePath = openFileDialog.FileName;
                     string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    string imagesDirectory = Path.Combine(projectDirectory, "../../../../ProductosIMG");
+                    string imagesDirectory = Path.Combine(projectDirectory, "../../../../assets/ProductosIMG");
                     Directory.CreateDirectory(imagesDirectory);
                     string destFilePath = Path.Combine(imagesDirectory, Path.GetFileName(sourceFilePath));
                     File.Copy(sourceFilePath, destFilePath, true);
@@ -191,6 +191,8 @@ namespace TrabajoFinalTPV_Eva1
         {
             try
             {
+
+                pictureBoxGAProducto.Image = Image.FromFile("../../../../assets/loading.gif");
                 string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string envFilePath = Path.Combine(projectDirectory, "../../../../.env");
                 DotNetEnv.Env.Load(envFilePath);
@@ -219,7 +221,7 @@ namespace TrabajoFinalTPV_Eva1
                                     {
                                         using (Stream imageStream = await imageResponse.Content.ReadAsStreamAsync())
                                         {
-                                            string imagesDirectory = Path.Combine(projectDirectory, "../../../../ProductosIMG");
+                                            string imagesDirectory = Path.Combine(projectDirectory, "../../../../assets/ProductosIMG");
                                             Directory.CreateDirectory(imagesDirectory);
 
                                             // Liberar la imagen actual antes de descargar una nueva
@@ -250,6 +252,11 @@ namespace TrabajoFinalTPV_Eva1
                                     }
                                     else
                                     {
+                                        if (pictureBoxGAProducto.Image != null)
+                                        {
+                                            pictureBoxGAProducto.Image.Dispose();
+                                            pictureBoxGAProducto.Image = null;
+                                        }
                                         throw new Exception("No se pudo descargar la imagen");
                                     }
                                 }
@@ -257,18 +264,33 @@ namespace TrabajoFinalTPV_Eva1
                             else
                             {
                                 MessageBox.Show("No se encontraron imágenes para la búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                if (pictureBoxGAProducto.Image != null)
+                                {
+                                    pictureBoxGAProducto.Image.Dispose();
+                                    pictureBoxGAProducto.Image = null;
+                                }
                             }
                         }
                     }
                     else
                     {
                         MessageBox.Show($"Error en la solicitud: {response.ReasonPhrase}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (pictureBoxGAProducto.Image != null)
+                        {
+                            pictureBoxGAProducto.Image.Dispose();
+                            pictureBoxGAProducto.Image = null;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (pictureBoxGAProducto.Image != null)
+                {
+                    pictureBoxGAProducto.Image.Dispose();
+                    pictureBoxGAProducto.Image = null;
+                }
             }
         }
 
