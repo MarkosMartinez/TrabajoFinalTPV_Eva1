@@ -8,13 +8,15 @@ namespace TrabajoFinalTPV_Eva1
     public partial class FormMenuPrincipal : Form
     {
         private string userType;
-        private string userSeleecionado = null;
+        private string userSeleccionado = null;
+        private string productoSeleccionado = null;
+        private string productoIMGURL = null;
         public FormMenuPrincipal(string userName, string userType)
         {
             InitializeComponent();
             this.userType = userType;
             groupBoxReservas.Visible = true;
-            listViewUsuarios.SelectedIndexChanged += listViewUsuarios_SelectedIndexChanged;
+            listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
         }
 
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
@@ -72,7 +74,7 @@ namespace TrabajoFinalTPV_Eva1
 
         }
 
-        
+
 
         private string HashPassword(string password)
         {

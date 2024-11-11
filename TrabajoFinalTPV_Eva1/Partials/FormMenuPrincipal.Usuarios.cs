@@ -8,10 +8,10 @@ namespace TrabajoFinalTPV_Eva1
         private void cargarUsuarios()
         {
             // Configurar el ListView
-            listViewUsuarios.Clear();
-            listViewUsuarios.View = View.Details;
-            listViewUsuarios.Columns.Add("Nombre", 100);
-            listViewUsuarios.Columns.Add("Tipo", 50);
+            listViewGUUsuarios.Clear();
+            listViewGUUsuarios.View = View.Details;
+            listViewGUUsuarios.Columns.Add("Nombre", 100);
+            listViewGUUsuarios.Columns.Add("Tipo", 50);
 
             // Conectar a la base de datos de Access
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
@@ -27,19 +27,19 @@ namespace TrabajoFinalTPV_Eva1
                         {
                             ListViewItem item = new ListViewItem(reader["Usuario"].ToString());
                             item.SubItems.Add(reader["Tipo"].ToString());
-                            listViewUsuarios.Items.Add(item);
+                            listViewGUUsuarios.Items.Add(item);
                         }
                     }
                 }
             }
         }
 
-        private void listViewUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        private void listViewGUUsuarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewUsuarios.SelectedItems.Count == 1)
+            if (listViewGUUsuarios.SelectedItems.Count == 1)
             {
-                var selectedItem = listViewUsuarios.SelectedItems[0];
-                userSeleecionado = selectedItem.SubItems[0].Text;
+                var selectedItem = listViewGUUsuarios.SelectedItems[0];
+                userSeleccionado = selectedItem.SubItems[0].Text;
                 btnGUAddModify.Text = "Modificar";
                 textBoxGUNombre.Text = selectedItem.SubItems[0].Text;
                 checkBoxGUAdmin.Checked = selectedItem.SubItems[1].Text == "admin";
@@ -48,7 +48,7 @@ namespace TrabajoFinalTPV_Eva1
             }
             else
             {
-                userSeleecionado = null;
+                userSeleccionado = null;
                 btnGUAddModify.Text = "Añadir";
                 textBoxGUNombre.Text = string.Empty;
                 checkBoxGUAdmin.Checked = false;
@@ -58,7 +58,7 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnGUEliminar_Click(object sender, EventArgs e)
         {
-            if (userSeleecionado != null)
+            if (userSeleccionado != null)
             {
                 string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -67,7 +67,7 @@ namespace TrabajoFinalTPV_Eva1
                     string query = "DELETE FROM Usuarios WHERE Usuario = ?";
                     using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@Usuario", userSeleecionado);
+                        command.Parameters.AddWithValue("@Usuario", userSeleccionado);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -78,7 +78,7 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnGUAddModify_Click(object sender, EventArgs e)
         {
-            if (userSeleecionado != null)
+            if (userSeleccionado != null)
             {
                 if (string.IsNullOrEmpty(textBoxGUNombre.Text))
                 {
@@ -108,7 +108,7 @@ namespace TrabajoFinalTPV_Eva1
                         }
 
                         command.Parameters.AddWithValue("@Usuario", textBoxGUNombre.Text);
-                        command.Parameters.AddWithValue("@UsuarioOriginal", userSeleecionado);
+                        command.Parameters.AddWithValue("@UsuarioOriginal", userSeleccionado);
 
                         command.ExecuteNonQuery();
                         MessageBox.Show("Usuario modificado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
