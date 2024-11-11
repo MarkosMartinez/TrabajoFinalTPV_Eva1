@@ -1,4 +1,7 @@
 ﻿using System.Data.OleDb;
+using System.Text.Json;
+using System.Windows.Forms;
+using DotNetEnv;
 
 namespace TrabajoFinalTPV_Eva1
 {
@@ -163,10 +166,66 @@ namespace TrabajoFinalTPV_Eva1
             }
         }
 
-        private void btnGABuscarIMG_Click(object sender, EventArgs e)
+        private async void btnGABuscarIMG_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string envFilePath = Path.Combine(projectDirectory, "../../../../.env");
+                DotNetEnv.Env.Load(envFilePath);
 
+                string apiKey = Environment.GetEnvironmentVariable("API_KEY");
+                string cx = Environment.GetEnvironmentVariable("CX");
+                string query = textBoxGAProducto.Text;
+                string requestUri = $"https://www.googleapis.com/customsearch/v1?key={apiKey}&cx={cx}&q={query}&searchType=image&num=1&fields=items(link)";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(requestUri);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonResponse = await response.Content.ReadAsStringAsync();
+                        using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
+                        {
+                            JsonElement root = doc.RootElement;
+                            if (root.TryGetProperty("items", out JsonElement items) && items.GetArrayLength() > 0)
+                            {
+                                string imageUrl = items[0].GetProperty("link").GetString();
+
+                                // Descargar la imagen y mostrarla en el PictureBox
+                                using (HttpClient imageClient = new HttpClient())
+                                {
+                                    HttpResponseMessage imageResponse = await imageClient.GetAsync(imageUrl);
+                                    if (imageResponse.IsSuccessStatusCode)
+                                    {
+                                        using (Stream imageStream = await imageResponse.Content.ReadAsStreamAsync())
+                                        {
+                                            pictureBoxGAProducto.Image = Image.FromStream(imageStream);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("No se pudo descargar la imagen. Inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontraron imágenes para la búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error en la solicitud: {response.ReasonPhrase}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
 
     }
