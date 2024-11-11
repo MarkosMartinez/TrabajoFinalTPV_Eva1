@@ -53,6 +53,7 @@ namespace TrabajoFinalTPV_Eva1
                 textBoxGACantidad.Text = selectedItem.SubItems[2].Text;
                 textBoxGAPrecio.Text = selectedItem.SubItems[3].Text;
                 btnGAEliminar.Enabled = true;
+                cargarImagen(textBoxGAProducto.Text);
             }
             else
             {
@@ -63,6 +64,7 @@ namespace TrabajoFinalTPV_Eva1
                 textBoxGACantidad.Text = string.Empty;
                 textBoxGAPrecio.Text = string.Empty;
                 btnGAEliminar.Enabled = false;
+                pictureBoxGAProducto.Image = null;
             }
         }
 
@@ -99,13 +101,14 @@ namespace TrabajoFinalTPV_Eva1
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "UPDATE Almacen SET Producto = ?, Categoria = ?, Cantidad = ?, Precio = ? WHERE Producto = ?";
+                    string query = "UPDATE Almacen SET Producto = ?, Categoria = ?, Cantidad = ?, Precio = ?, imgPath = ? WHERE Producto = ?";
                     using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
                         command.Parameters.AddWithValue("@Categoria", textBoxGACategoria.Text);
                         command.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
                         command.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                        command.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Producto", productoSeleccionado);
                         command.ExecuteNonQuery();
                     }
@@ -123,13 +126,14 @@ namespace TrabajoFinalTPV_Eva1
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "INSERT INTO Almacen (Producto, Categoria, Cantidad, Precio) VALUES (?, ?, ?, ?)";
+                    string query = "INSERT INTO Almacen (Producto, Categoria, Cantidad, Precio, imgPath) VALUES (?, ?, ?, ?, ?)";
                     using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
                         command.Parameters.AddWithValue("@Categoria", textBoxGACategoria.Text);
                         command.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
                         command.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                        command.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
                         command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Producto añadido correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -160,7 +164,7 @@ namespace TrabajoFinalTPV_Eva1
                     Uri projectUri = new Uri(projectDirectory);
                     Uri imageUri = new Uri(imagePath);
                     string relativePath = projectUri.MakeRelativeUri(imageUri).ToString();
-                    productoIMGURL = relativePath;
+                    productoIMGPath = relativePath;
                     pictureBoxGAProducto.Image = Image.FromFile(imagePath);
                 }
             }
@@ -191,7 +195,6 @@ namespace TrabajoFinalTPV_Eva1
                             {
                                 string imageUrl = items[0].GetProperty("link").GetString();
 
-                                // Descargar la imagen y mostrarla en el PictureBox
                                 using (HttpClient imageClient = new HttpClient())
                                 {
                                     HttpResponseMessage imageResponse = await imageClient.GetAsync(imageUrl);
@@ -199,12 +202,24 @@ namespace TrabajoFinalTPV_Eva1
                                     {
                                         using (Stream imageStream = await imageResponse.Content.ReadAsStreamAsync())
                                         {
-                                            pictureBoxGAProducto.Image = Image.FromStream(imageStream);
+                                            string imagesDirectory = Path.Combine(projectDirectory, "../../../../ProductosIMG");
+                                            Directory.CreateDirectory(imagesDirectory);
+
+                                            Uri projectUri = new Uri(projectDirectory);
+                                            Uri imageUri = new Uri(Path.Combine(imagesDirectory, $"{query}.jpg"));
+                                            string relativePath = projectUri.MakeRelativeUri(imageUri).ToString();
+                                            productoIMGPath = relativePath;
+
+                                            using (FileStream fileStream = new FileStream(productoIMGPath, FileMode.Create, FileAccess.Write))
+                                            {
+                                                await imageStream.CopyToAsync(fileStream);
+                                            }
+                                            pictureBoxGAProducto.Image = Image.FromFile(productoIMGPath);
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show("No se pudo descargar la imagen. Inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        throw new Exception("No se pudo descargar la imagen");
                                     }
                                 }
                             }
@@ -226,6 +241,30 @@ namespace TrabajoFinalTPV_Eva1
             }
         }
 
+        private void cargarImagen(string Producto)
+        {
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT imgPath FROM Almacen WHERE Producto = ?";
+                using (OleDbCommand command = new OleDbCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Producto", Producto);
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string imgPath = reader["imgPath"].ToString();
+                            if (!string.IsNullOrEmpty(imgPath))
+                            {
+                                pictureBoxGAProducto.Image = Image.FromFile(imgPath);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 
     }
