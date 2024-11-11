@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /TrabajoFinalTPV_Eva1/.env
+/TrabajoFinalTPV_Eva1/BBDD/Sociedad.laccdb
