@@ -64,7 +64,11 @@ namespace TrabajoFinalTPV_Eva1
                 textBoxGACantidad.Text = string.Empty;
                 textBoxGAPrecio.Text = string.Empty;
                 btnGAEliminar.Enabled = false;
-                pictureBoxGAProducto.Image = null;
+                if (pictureBoxGAProducto.Image != null)
+                {
+                    pictureBoxGAProducto.Image.Dispose();
+                    pictureBoxGAProducto.Image = null;
+                }
             }
         }
 
@@ -153,6 +157,13 @@ namespace TrabajoFinalTPV_Eva1
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    // Liberar la imagen actual antes de cargar una nueva
+                    if (pictureBoxGAProducto.Image != null)
+                    {
+                        pictureBoxGAProducto.Image.Dispose();
+                        pictureBoxGAProducto.Image = null;
+                    }
+
                     string sourceFilePath = openFileDialog.FileName;
                     string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string imagesDirectory = Path.Combine(projectDirectory, "../../../../ProductosIMG");
@@ -163,9 +174,15 @@ namespace TrabajoFinalTPV_Eva1
 
                     Uri projectUri = new Uri(projectDirectory);
                     Uri imageUri = new Uri(imagePath);
-                    string relativePath = projectUri.MakeRelativeUri(imageUri).ToString();
+                    string relativePath = Uri.UnescapeDataString(projectUri.MakeRelativeUri(imageUri).ToString());
                     productoIMGPath = relativePath;
-                    pictureBoxGAProducto.Image = Image.FromFile(imagePath);
+
+
+                    // Cargar la imagen en memoria antes de asignarla al PictureBox
+                    using (MemoryStream memoryStream = new MemoryStream(File.ReadAllBytes(imagePath)))
+                    {
+                        pictureBoxGAProducto.Image = Image.FromStream(memoryStream);
+                    }
                 }
             }
         }
@@ -178,8 +195,8 @@ namespace TrabajoFinalTPV_Eva1
                 string envFilePath = Path.Combine(projectDirectory, "../../../../.env");
                 DotNetEnv.Env.Load(envFilePath);
 
-                string apiKey = Environment.GetEnvironmentVariable("API_KEY");
-                string cx = Environment.GetEnvironmentVariable("CX");
+                string apiKey = Environment.GetEnvironmentVariable("API_KEY") ?? string.Empty;
+                string cx = Environment.GetEnvironmentVariable("CX") ?? string.Empty;
                 string query = textBoxGAProducto.Text;
                 string requestUri = $"https://www.googleapis.com/customsearch/v1?key={apiKey}&cx={cx}&q={query}&searchType=image&num=1&fields=items(link)";
                 using (HttpClient client = new HttpClient())
@@ -193,7 +210,7 @@ namespace TrabajoFinalTPV_Eva1
                             JsonElement root = doc.RootElement;
                             if (root.TryGetProperty("items", out JsonElement items) && items.GetArrayLength() > 0)
                             {
-                                string imageUrl = items[0].GetProperty("link").GetString();
+                                string imageUrl = items[0].GetProperty("link").GetString() ?? string.Empty;
 
                                 using (HttpClient imageClient = new HttpClient())
                                 {
@@ -205,16 +222,30 @@ namespace TrabajoFinalTPV_Eva1
                                             string imagesDirectory = Path.Combine(projectDirectory, "../../../../ProductosIMG");
                                             Directory.CreateDirectory(imagesDirectory);
 
-                                            Uri projectUri = new Uri(projectDirectory);
-                                            Uri imageUri = new Uri(Path.Combine(imagesDirectory, $"{query}.jpg"));
-                                            string relativePath = projectUri.MakeRelativeUri(imageUri).ToString();
-                                            productoIMGPath = relativePath;
+                                            // Liberar la imagen actual antes de descargar una nueva
+                                            if (pictureBoxGAProducto.Image != null)
+                                            {
+                                                pictureBoxGAProducto.Image.Dispose();
+                                                pictureBoxGAProducto.Image = null;
+                                            }
 
-                                            using (FileStream fileStream = new FileStream(productoIMGPath, FileMode.Create, FileAccess.Write))
+                                            string imagePath = Path.Combine(imagesDirectory, $"{query}.jpg");
+
+                                            using (FileStream fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                                             {
                                                 await imageStream.CopyToAsync(fileStream);
                                             }
-                                            pictureBoxGAProducto.Image = Image.FromFile(productoIMGPath);
+
+                                            Uri projectUri = new Uri(projectDirectory);
+                                            Uri imageUri = new Uri(imagePath);
+                                            string relativePath = Uri.UnescapeDataString(projectUri.MakeRelativeUri(imageUri).ToString());
+                                            productoIMGPath = relativePath;
+
+                                            // Cargar la imagen en memoria antes de asignarla al PictureBox
+                                            using (MemoryStream memoryStream = new MemoryStream(File.ReadAllBytes(imagePath)))
+                                            {
+                                                pictureBoxGAProducto.Image = Image.FromStream(memoryStream);
+                                            }
                                         }
                                     }
                                     else
@@ -255,17 +286,15 @@ namespace TrabajoFinalTPV_Eva1
                     {
                         if (reader.Read())
                         {
-                            string imgPath = reader["imgPath"].ToString();
+                            string imgPath = reader["imgPath"].ToString() ?? string.Empty;
                             if (!string.IsNullOrEmpty(imgPath))
                             {
-                                pictureBoxGAProducto.Image = Image.FromFile(imgPath);
+                                pictureBoxGAProducto.Image = Image.FromFile(Uri.UnescapeDataString(imgPath));
                             }
                         }
                     }
                 }
             }
         }
-
-
     }
 }
