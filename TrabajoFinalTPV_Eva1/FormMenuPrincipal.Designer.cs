@@ -29,10 +29,23 @@
         private void InitializeComponent()
         {
             splitContainer1 = new SplitContainer();
+            btnLogout = new Button();
             btnUsuarios = new Button();
             btnAlmacen = new Button();
             btnConsumos = new Button();
             btnReservas = new Button();
+            groupBoxReservas = new GroupBox();
+            labelReservas = new Label();
+            listViewReservas = new ListView();
+            btnAddModifyReserva = new Button();
+            comboBoxTipoReservas = new ComboBox();
+            dateTimePickerReservas = new DateTimePicker();
+            btnMesa6 = new Button();
+            btnMesa5 = new Button();
+            btnMesa4 = new Button();
+            btnMesa3 = new Button();
+            btnMesa2 = new Button();
+            btnMesa1 = new Button();
             groupBoxAlmacen = new GroupBox();
             btnGABuscarIMG = new Button();
             btnGASubirLocal = new Button();
@@ -53,18 +66,16 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
-            groupBoxReservas = new GroupBox();
-            listViewReservas = new ListView();
             groupBoxConsumos = new GroupBox();
             listViewConsumo = new ListView();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            groupBoxReservas.SuspendLayout();
             groupBoxAlmacen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
-            groupBoxReservas.SuspendLayout();
             groupBoxConsumos.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,6 +86,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(btnLogout);
             splitContainer1.Panel1.Controls.Add(btnUsuarios);
             splitContainer1.Panel1.Controls.Add(btnAlmacen);
             splitContainer1.Panel1.Controls.Add(btnConsumos);
@@ -82,14 +94,24 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
-            splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxConsumos);
             splitContainer1.Size = new Size(797, 449);
             splitContainer1.SplitterDistance = 152;
             splitContainer1.TabIndex = 2;
             splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
+            // 
+            // btnLogout
+            // 
+            btnLogout.Location = new Point(10, 417);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(126, 23);
+            btnLogout.TabIndex = 4;
+            btnLogout.Text = "Cerrar Sesión";
+            btnLogout.UseVisualStyleBackColor = true;
+            btnLogout.Click += btnLogout_Click;
             // 
             // btnUsuarios
             // 
@@ -133,6 +155,132 @@
             btnReservas.UseVisualStyleBackColor = true;
             btnReservas.Click += btnReservas_Click;
             // 
+            // groupBoxReservas
+            // 
+            groupBoxReservas.Controls.Add(labelReservas);
+            groupBoxReservas.Controls.Add(listViewReservas);
+            groupBoxReservas.Controls.Add(btnAddModifyReserva);
+            groupBoxReservas.Controls.Add(comboBoxTipoReservas);
+            groupBoxReservas.Controls.Add(dateTimePickerReservas);
+            groupBoxReservas.Controls.Add(btnMesa6);
+            groupBoxReservas.Controls.Add(btnMesa5);
+            groupBoxReservas.Controls.Add(btnMesa4);
+            groupBoxReservas.Controls.Add(btnMesa3);
+            groupBoxReservas.Controls.Add(btnMesa2);
+            groupBoxReservas.Controls.Add(btnMesa1);
+            groupBoxReservas.Location = new Point(0, 0);
+            groupBoxReservas.Name = "groupBoxReservas";
+            groupBoxReservas.Size = new Size(638, 446);
+            groupBoxReservas.TabIndex = 0;
+            groupBoxReservas.TabStop = false;
+            groupBoxReservas.Text = "Reservas";
+            groupBoxReservas.Visible = false;
+            // 
+            // labelReservas
+            // 
+            labelReservas.AutoSize = true;
+            labelReservas.Location = new Point(445, 207);
+            labelReservas.Name = "labelReservas";
+            labelReservas.Size = new Size(120, 15);
+            labelReservas.TabIndex = 10;
+            labelReservas.Text = "Lista de tus Reservas: ";
+            // 
+            // listViewReservas
+            // 
+            listViewReservas.Location = new Point(435, 230);
+            listViewReservas.Name = "listViewReservas";
+            listViewReservas.Size = new Size(200, 210);
+            listViewReservas.TabIndex = 9;
+            listViewReservas.UseCompatibleStateImageBehavior = false;
+            // 
+            // btnAddModifyReserva
+            // 
+            btnAddModifyReserva.Location = new Point(466, 167);
+            btnAddModifyReserva.Name = "btnAddModifyReserva";
+            btnAddModifyReserva.Size = new Size(100, 23);
+            btnAddModifyReserva.TabIndex = 8;
+            btnAddModifyReserva.Text = "Añadir Reserva";
+            btnAddModifyReserva.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxTipoReservas
+            // 
+            comboBoxTipoReservas.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxTipoReservas.FormattingEnabled = true;
+            comboBoxTipoReservas.Items.AddRange(new object[] { "Desayuno", "Comida", "Cena" });
+            comboBoxTipoReservas.Location = new Point(466, 108);
+            comboBoxTipoReservas.Name = "comboBoxTipoReservas";
+            comboBoxTipoReservas.Size = new Size(100, 23);
+            comboBoxTipoReservas.TabIndex = 7;
+            // 
+            // dateTimePickerReservas
+            // 
+            dateTimePickerReservas.Format = DateTimePickerFormat.Short;
+            dateTimePickerReservas.Location = new Point(466, 50);
+            dateTimePickerReservas.Name = "dateTimePickerReservas";
+            dateTimePickerReservas.Size = new Size(100, 23);
+            dateTimePickerReservas.TabIndex = 6;
+            dateTimePickerReservas.Value = new DateTime(2024, 11, 12, 12, 31, 11, 0);
+            // 
+            // btnMesa6
+            // 
+            btnMesa6.Location = new Point(238, 329);
+            btnMesa6.Name = "btnMesa6";
+            btnMesa6.Size = new Size(75, 23);
+            btnMesa6.TabIndex = 5;
+            btnMesa6.Tag = "Mesa6";
+            btnMesa6.Text = "Mesa 6";
+            btnMesa6.UseVisualStyleBackColor = true;
+            // 
+            // btnMesa5
+            // 
+            btnMesa5.Location = new Point(238, 192);
+            btnMesa5.Name = "btnMesa5";
+            btnMesa5.Size = new Size(75, 23);
+            btnMesa5.TabIndex = 4;
+            btnMesa5.Tag = "Mesa5";
+            btnMesa5.Text = "Mesa 5";
+            btnMesa5.UseVisualStyleBackColor = true;
+            // 
+            // btnMesa4
+            // 
+            btnMesa4.Location = new Point(238, 52);
+            btnMesa4.Name = "btnMesa4";
+            btnMesa4.Size = new Size(75, 23);
+            btnMesa4.TabIndex = 3;
+            btnMesa4.Tag = "Mesa4";
+            btnMesa4.Text = "Mesa 4";
+            btnMesa4.UseVisualStyleBackColor = true;
+            // 
+            // btnMesa3
+            // 
+            btnMesa3.Location = new Point(46, 329);
+            btnMesa3.Name = "btnMesa3";
+            btnMesa3.Size = new Size(75, 23);
+            btnMesa3.TabIndex = 2;
+            btnMesa3.Tag = "Mesa3";
+            btnMesa3.Text = "Mesa 3";
+            btnMesa3.UseVisualStyleBackColor = true;
+            // 
+            // btnMesa2
+            // 
+            btnMesa2.Location = new Point(46, 192);
+            btnMesa2.Name = "btnMesa2";
+            btnMesa2.Size = new Size(75, 23);
+            btnMesa2.TabIndex = 1;
+            btnMesa2.Tag = "Mesa2";
+            btnMesa2.Text = "Mesa 2";
+            btnMesa2.UseVisualStyleBackColor = true;
+            // 
+            // btnMesa1
+            // 
+            btnMesa1.Location = new Point(46, 52);
+            btnMesa1.Name = "btnMesa1";
+            btnMesa1.Size = new Size(75, 23);
+            btnMesa1.TabIndex = 0;
+            btnMesa1.Tag = "Mesa1";
+            btnMesa1.Text = "Mesa 1";
+            btnMesa1.UseVisualStyleBackColor = true;
+            // 
             // groupBoxAlmacen
             // 
             groupBoxAlmacen.Controls.Add(btnGABuscarIMG);
@@ -155,21 +303,27 @@
             // 
             // btnGABuscarIMG
             // 
-            btnGABuscarIMG.Location = new Point(548, 131);
+            btnGABuscarIMG.BackgroundImage = Properties.Resources.buscar;
+            btnGABuscarIMG.BackgroundImageLayout = ImageLayout.Zoom;
+            btnGABuscarIMG.FlatAppearance.BorderSize = 0;
+            btnGABuscarIMG.FlatStyle = FlatStyle.Flat;
+            btnGABuscarIMG.Location = new Point(548, 129);
             btnGABuscarIMG.Name = "btnGABuscarIMG";
-            btnGABuscarIMG.Size = new Size(75, 23);
+            btnGABuscarIMG.Size = new Size(75, 32);
             btnGABuscarIMG.TabIndex = 12;
-            btnGABuscarIMG.Text = "Buscar";
             btnGABuscarIMG.UseVisualStyleBackColor = true;
             btnGABuscarIMG.Click += btnGABuscarIMG_Click;
             // 
             // btnGASubirLocal
             // 
-            btnGASubirLocal.Location = new Point(448, 131);
+            btnGASubirLocal.BackgroundImage = Properties.Resources.subir;
+            btnGASubirLocal.BackgroundImageLayout = ImageLayout.Zoom;
+            btnGASubirLocal.FlatAppearance.BorderSize = 0;
+            btnGASubirLocal.FlatStyle = FlatStyle.Flat;
+            btnGASubirLocal.Location = new Point(448, 129);
             btnGASubirLocal.Name = "btnGASubirLocal";
-            btnGASubirLocal.Size = new Size(75, 23);
+            btnGASubirLocal.Size = new Size(75, 32);
             btnGASubirLocal.TabIndex = 11;
-            btnGASubirLocal.Text = "Subir";
             btnGASubirLocal.UseVisualStyleBackColor = true;
             btnGASubirLocal.Click += btnGASubirLocal_Click;
             // 
@@ -178,7 +332,7 @@
             pictureBoxGAProducto.Location = new Point(448, 265);
             pictureBoxGAProducto.Name = "pictureBoxGAProducto";
             pictureBoxGAProducto.Size = new Size(175, 172);
-            pictureBoxGAProducto.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxGAProducto.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxGAProducto.TabIndex = 10;
             pictureBoxGAProducto.TabStop = false;
             // 
@@ -196,7 +350,7 @@
             // btnGAEliminar
             // 
             btnGAEliminar.Enabled = false;
-            btnGAEliminar.Location = new Point(448, 206);
+            btnGAEliminar.Location = new Point(448, 207);
             btnGAEliminar.Name = "btnGAEliminar";
             btnGAEliminar.Size = new Size(175, 23);
             btnGAEliminar.TabIndex = 8;
@@ -214,7 +368,7 @@
             // 
             // btnGAAddModify
             // 
-            btnGAAddModify.Location = new Point(448, 166);
+            btnGAAddModify.Location = new Point(448, 173);
             btnGAAddModify.Name = "btnGAAddModify";
             btnGAAddModify.Size = new Size(175, 23);
             btnGAAddModify.TabIndex = 6;
@@ -323,27 +477,6 @@
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
             // 
-            // groupBoxReservas
-            // 
-            groupBoxReservas.Controls.Add(listViewReservas);
-            groupBoxReservas.Location = new Point(0, 0);
-            groupBoxReservas.Name = "groupBoxReservas";
-            groupBoxReservas.Size = new Size(638, 446);
-            groupBoxReservas.TabIndex = 0;
-            groupBoxReservas.TabStop = false;
-            groupBoxReservas.Text = "Reservas";
-            groupBoxReservas.Visible = false;
-            // 
-            // listViewReservas
-            // 
-            listViewReservas.FullRowSelect = true;
-            listViewReservas.Location = new Point(6, 19);
-            listViewReservas.MultiSelect = false;
-            listViewReservas.Name = "listViewReservas";
-            listViewReservas.Size = new Size(626, 427);
-            listViewReservas.TabIndex = 1;
-            listViewReservas.UseCompatibleStateImageBehavior = false;
-            // 
             // groupBoxConsumos
             // 
             groupBoxConsumos.Controls.Add(listViewConsumo);
@@ -378,12 +511,13 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            groupBoxReservas.ResumeLayout(false);
+            groupBoxReservas.PerformLayout();
             groupBoxAlmacen.ResumeLayout(false);
             groupBoxAlmacen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxUsuarios.ResumeLayout(false);
             groupBoxUsuarios.PerformLayout();
-            groupBoxReservas.ResumeLayout(false);
             groupBoxConsumos.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -404,7 +538,6 @@
         private TextBox textBoxGUPass;
         private TextBox textBoxGUNombre;
         private ListView listViewGUUsuarios;
-        private ListView listViewReservas;
         private ListView listViewConsumo;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
@@ -418,5 +551,17 @@
         private Button btnGABuscarIMG;
         private Button btnGASubirLocal;
         private PictureBox pictureBoxGAProducto;
+        private Button btnLogout;
+        private Button btnMesa6;
+        private Button btnMesa5;
+        private Button btnMesa4;
+        private Button btnMesa3;
+        private Button btnMesa2;
+        private Button btnMesa1;
+        private Button btnAddModifyReserva;
+        private ComboBox comboBoxTipoReservas;
+        private DateTimePicker dateTimePickerReservas;
+        private ListView listViewReservas;
+        private Label labelReservas;
     }
 }

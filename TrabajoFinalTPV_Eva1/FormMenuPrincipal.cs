@@ -8,6 +8,7 @@ namespace TrabajoFinalTPV_Eva1
     public partial class FormMenuPrincipal : Form
     {
         private string userType;
+        private string user;
         private string userSeleccionado = null;
         private string? productoSeleccionado;
         private string? productoIMGPath;
@@ -15,8 +16,10 @@ namespace TrabajoFinalTPV_Eva1
         {
             InitializeComponent();
             this.userType = userType;
+            this.user = userName;
             groupBoxReservas.Visible = true;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
+            cargarReservas();
         }
 
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
@@ -48,6 +51,7 @@ namespace TrabajoFinalTPV_Eva1
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = false;
             groupBoxUsuarios.Visible = false;
+            //CargarConsumos();
         }
 
         private void btnReservas_Click(object sender, EventArgs e)
@@ -56,6 +60,7 @@ namespace TrabajoFinalTPV_Eva1
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = true;
             groupBoxUsuarios.Visible = false;
+            cargarReservas();
         }
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -90,6 +95,11 @@ namespace TrabajoFinalTPV_Eva1
             }
         }
 
-
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Close();
+        }
     }
 }
