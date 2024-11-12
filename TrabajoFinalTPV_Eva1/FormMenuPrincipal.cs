@@ -17,8 +17,11 @@ namespace TrabajoFinalTPV_Eva1
             InitializeComponent();
             this.userType = userType;
             this.user = userName;
-            groupBoxReservas.Visible = true;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
+
+            groupBoxReservas.Visible = true;
+            comboBoxTipoReservas.SelectedIndex = 0;
+            dateTimePickerReservas.MinDate = DateTime.Now;
             cargarReservas();
         }
 
@@ -39,24 +42,24 @@ namespace TrabajoFinalTPV_Eva1
         private void btnAlmacen_Click(object sender, EventArgs e)
         {
             groupBoxAlmacen.Visible = true;
-            groupBoxConsumos.Visible = false;
+            groupBoxPedido.Visible = false;
             groupBoxReservas.Visible = false;
             groupBoxUsuarios.Visible = false;
             cargarAlmacen();
         }
 
-        private void btnConsumos_Click(object sender, EventArgs e)
+        private void btnPedido_Click(object sender, EventArgs e)
         {
-            groupBoxConsumos.Visible = true;
+            groupBoxPedido.Visible = true;
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = false;
             groupBoxUsuarios.Visible = false;
-            //CargarConsumos();
+            //CargarPedidos();
         }
 
         private void btnReservas_Click(object sender, EventArgs e)
         {
-            groupBoxConsumos.Visible = false;
+            groupBoxPedido.Visible = false;
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = true;
             groupBoxUsuarios.Visible = false;
@@ -71,15 +74,13 @@ namespace TrabajoFinalTPV_Eva1
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
             groupBoxUsuarios.Visible = true;
-            groupBoxConsumos.Visible = false;
+            groupBoxPedido.Visible = false;
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = false;
 
             cargarUsuarios();
 
         }
-
-
 
         private string HashPassword(string password)
         {
@@ -101,5 +102,6 @@ namespace TrabajoFinalTPV_Eva1
             form1.Show();
             this.Close();
         }
+
     }
 }

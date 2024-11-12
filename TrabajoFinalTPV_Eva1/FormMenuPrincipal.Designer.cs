@@ -32,7 +32,7 @@
             btnLogout = new Button();
             btnUsuarios = new Button();
             btnAlmacen = new Button();
-            btnConsumos = new Button();
+            btnPedido = new Button();
             btnReservas = new Button();
             groupBoxReservas = new GroupBox();
             labelReservas = new Label();
@@ -66,8 +66,8 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
-            groupBoxConsumos = new GroupBox();
-            listViewConsumo = new ListView();
+            groupBoxPedido = new GroupBox();
+            listViewPedido = new ListView();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -76,7 +76,7 @@
             groupBoxAlmacen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
-            groupBoxConsumos.SuspendLayout();
+            groupBoxPedido.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer1
@@ -89,7 +89,7 @@
             splitContainer1.Panel1.Controls.Add(btnLogout);
             splitContainer1.Panel1.Controls.Add(btnUsuarios);
             splitContainer1.Panel1.Controls.Add(btnAlmacen);
-            splitContainer1.Panel1.Controls.Add(btnConsumos);
+            splitContainer1.Panel1.Controls.Add(btnPedido);
             splitContainer1.Panel1.Controls.Add(btnReservas);
             // 
             // splitContainer1.Panel2
@@ -97,7 +97,7 @@
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
-            splitContainer1.Panel2.Controls.Add(groupBoxConsumos);
+            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Size = new Size(797, 449);
             splitContainer1.SplitterDistance = 152;
             splitContainer1.TabIndex = 2;
@@ -135,15 +135,15 @@
             btnAlmacen.Visible = false;
             btnAlmacen.Click += btnAlmacen_Click;
             // 
-            // btnConsumos
+            // btnPedido
             // 
-            btnConsumos.Location = new Point(10, 54);
-            btnConsumos.Name = "btnConsumos";
-            btnConsumos.Size = new Size(126, 23);
-            btnConsumos.TabIndex = 1;
-            btnConsumos.Text = "Gestionar Consumo";
-            btnConsumos.UseVisualStyleBackColor = true;
-            btnConsumos.Click += btnConsumos_Click;
+            btnPedido.Location = new Point(10, 54);
+            btnPedido.Name = "btnPedido";
+            btnPedido.Size = new Size(126, 23);
+            btnPedido.TabIndex = 1;
+            btnPedido.Text = "Gestionar Pedido";
+            btnPedido.UseVisualStyleBackColor = true;
+            btnPedido.Click += btnPedido_Click;
             // 
             // btnReservas
             // 
@@ -211,6 +211,7 @@
             comboBoxTipoReservas.Name = "comboBoxTipoReservas";
             comboBoxTipoReservas.Size = new Size(100, 23);
             comboBoxTipoReservas.TabIndex = 7;
+            comboBoxTipoReservas.SelectedIndexChanged += comboBoxTipoReservas_SelectedIndexChanged;
             // 
             // dateTimePickerReservas
             // 
@@ -220,65 +221,72 @@
             dateTimePickerReservas.Size = new Size(100, 23);
             dateTimePickerReservas.TabIndex = 6;
             dateTimePickerReservas.Value = new DateTime(2024, 11, 12, 12, 31, 11, 0);
+            dateTimePickerReservas.ValueChanged += dateTimePickerReservas_ValueChanged;
             // 
             // btnMesa6
             // 
-            btnMesa6.Location = new Point(238, 329);
+            btnMesa6.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa6.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa6.Location = new Point(238, 310);
             btnMesa6.Name = "btnMesa6";
-            btnMesa6.Size = new Size(75, 23);
+            btnMesa6.Size = new Size(100, 67);
             btnMesa6.TabIndex = 5;
             btnMesa6.Tag = "Mesa6";
-            btnMesa6.Text = "Mesa 6";
             btnMesa6.UseVisualStyleBackColor = true;
             // 
             // btnMesa5
             // 
-            btnMesa5.Location = new Point(238, 192);
+            btnMesa5.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa5.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa5.Location = new Point(238, 180);
             btnMesa5.Name = "btnMesa5";
-            btnMesa5.Size = new Size(75, 23);
+            btnMesa5.Size = new Size(100, 68);
             btnMesa5.TabIndex = 4;
             btnMesa5.Tag = "Mesa5";
-            btnMesa5.Text = "Mesa 5";
             btnMesa5.UseVisualStyleBackColor = true;
             // 
             // btnMesa4
             // 
-            btnMesa4.Location = new Point(238, 52);
+            btnMesa4.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa4.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa4.Location = new Point(238, 50);
             btnMesa4.Name = "btnMesa4";
-            btnMesa4.Size = new Size(75, 23);
+            btnMesa4.Size = new Size(100, 68);
             btnMesa4.TabIndex = 3;
             btnMesa4.Tag = "Mesa4";
-            btnMesa4.Text = "Mesa 4";
             btnMesa4.UseVisualStyleBackColor = true;
             // 
             // btnMesa3
             // 
-            btnMesa3.Location = new Point(46, 329);
+            btnMesa3.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa3.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa3.Location = new Point(46, 310);
             btnMesa3.Name = "btnMesa3";
-            btnMesa3.Size = new Size(75, 23);
+            btnMesa3.Size = new Size(100, 65);
             btnMesa3.TabIndex = 2;
             btnMesa3.Tag = "Mesa3";
-            btnMesa3.Text = "Mesa 3";
             btnMesa3.UseVisualStyleBackColor = true;
             // 
             // btnMesa2
             // 
-            btnMesa2.Location = new Point(46, 192);
+            btnMesa2.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa2.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa2.Location = new Point(46, 180);
             btnMesa2.Name = "btnMesa2";
-            btnMesa2.Size = new Size(75, 23);
+            btnMesa2.Size = new Size(100, 67);
             btnMesa2.TabIndex = 1;
             btnMesa2.Tag = "Mesa2";
-            btnMesa2.Text = "Mesa 2";
             btnMesa2.UseVisualStyleBackColor = true;
             // 
             // btnMesa1
             // 
-            btnMesa1.Location = new Point(46, 52);
+            btnMesa1.BackgroundImage = Properties.Resources.mesa_libre;
+            btnMesa1.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMesa1.Location = new Point(46, 50);
             btnMesa1.Name = "btnMesa1";
-            btnMesa1.Size = new Size(75, 23);
+            btnMesa1.Size = new Size(100, 67);
             btnMesa1.TabIndex = 0;
             btnMesa1.Tag = "Mesa1";
-            btnMesa1.Text = "Mesa 1";
             btnMesa1.UseVisualStyleBackColor = true;
             // 
             // groupBoxAlmacen
@@ -477,26 +485,26 @@
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
             // 
-            // groupBoxConsumos
+            // groupBoxPedido
             // 
-            groupBoxConsumos.Controls.Add(listViewConsumo);
-            groupBoxConsumos.Location = new Point(0, 0);
-            groupBoxConsumos.Name = "groupBoxConsumos";
-            groupBoxConsumos.Size = new Size(448, 446);
-            groupBoxConsumos.TabIndex = 0;
-            groupBoxConsumos.TabStop = false;
-            groupBoxConsumos.Text = "Consumos";
-            groupBoxConsumos.Visible = false;
+            groupBoxPedido.Controls.Add(listViewPedido);
+            groupBoxPedido.Location = new Point(0, 0);
+            groupBoxPedido.Name = "groupBoxPedido";
+            groupBoxPedido.Size = new Size(429, 446);
+            groupBoxPedido.TabIndex = 0;
+            groupBoxPedido.TabStop = false;
+            groupBoxPedido.Text = "Consumos";
+            groupBoxPedido.Visible = false;
             // 
-            // listViewConsumo
+            // listViewPedido
             // 
-            listViewConsumo.FullRowSelect = true;
-            listViewConsumo.Location = new Point(6, 19);
-            listViewConsumo.MultiSelect = false;
-            listViewConsumo.Name = "listViewConsumo";
-            listViewConsumo.Size = new Size(436, 421);
-            listViewConsumo.TabIndex = 1;
-            listViewConsumo.UseCompatibleStateImageBehavior = false;
+            listViewPedido.FullRowSelect = true;
+            listViewPedido.Location = new Point(6, 19);
+            listViewPedido.MultiSelect = false;
+            listViewPedido.Name = "listViewPedido";
+            listViewPedido.Size = new Size(436, 421);
+            listViewPedido.TabIndex = 1;
+            listViewPedido.UseCompatibleStateImageBehavior = false;
             // 
             // FormMenuPrincipal
             // 
@@ -518,7 +526,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxUsuarios.ResumeLayout(false);
             groupBoxUsuarios.PerformLayout();
-            groupBoxConsumos.ResumeLayout(false);
+            groupBoxPedido.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -526,8 +534,8 @@
         private SplitContainer splitContainer1;
         private GroupBox groupBoxReservas;
         private Button btnReservas;
-        private Button btnConsumos;
-        private GroupBox groupBoxConsumos;
+        private Button btnPedido;
+        private GroupBox groupBoxPedido;
         private Button btnAlmacen;
         private GroupBox groupBoxAlmacen;
         private Button btnUsuarios;
@@ -538,7 +546,7 @@
         private TextBox textBoxGUPass;
         private TextBox textBoxGUNombre;
         private ListView listViewGUUsuarios;
-        private ListView listViewConsumo;
+        private ListView listViewPedido;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private TextBox textBoxGAProducto;

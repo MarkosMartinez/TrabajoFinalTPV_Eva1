@@ -4,10 +4,9 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
+        Boolean listoPrincipio = false;
         private void cargarReservas()
         {
-            comboBoxTipoReservas.SelectedIndex = 0; // Valor por defecto
-            dateTimePickerReservas.MinDate = DateTime.Now;
             updateListaReservas();
             updateMesas();
         }
@@ -42,6 +41,7 @@ namespace TrabajoFinalTPV_Eva1
                     }
                 }
             }
+            listoPrincipio = true;
         }
         private void updateMesas()
         {
@@ -56,13 +56,54 @@ namespace TrabajoFinalTPV_Eva1
                     command.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
                     using (OleDbDataReader reader = command.ExecuteReader())
                     {
+
+                        for (int i = 1; i <= 6; i++)
+                        {
+                            Button btnMesa = this.Controls.Find($"btnMesa{i}", true).FirstOrDefault() as Button;
+                            if (btnMesa != null)
+                            {
+                                btnMesa.BackgroundImage = Properties.Resources.mesa_libre;
+                                btnMesa.Enabled = true;
+                            }
+                        }
+
                         while (reader.Read())
                         {
-                            //Cambiar estado mesas. Ocupado, Ocupado por el mismo user, Libre y Seleccionado
+                            string[] mesasReservadas = reader["Mesa"].ToString().Split(',');
+                            string usuarioReserva = reader["Usuario"].ToString();
+                            var imagenMesa = Properties.Resources.mesa_libre;
+
+                            for (int i = 0; i < mesasReservadas.Length; i++)
+                            {
+                                string mesaReserva = mesasReservadas[i];
+                                Button btnMesa = this.Controls.Find($"btnMesa{mesaReserva}", true).FirstOrDefault() as Button;
+                                if (btnMesa != null)
+                                {
+                                    if (reader["Usuario"].ToString().ToLower() == user.ToLower())
+                                    {
+                                        btnMesa.BackgroundImage = Properties.Resources.mesa_ocupada_usuario;
+                                    }
+                                    else
+                                    {
+                                        btnMesa.BackgroundImage = Properties.Resources.mesa_ocupada;
+                                        btnMesa.Enabled = false;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private void comboBoxTipoReservas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(listoPrincipio) cargarReservas();
+        }
+
+        private void dateTimePickerReservas_ValueChanged(object sender, EventArgs e)
+        {
+            if (listoPrincipio) cargarReservas();
         }
 
 
