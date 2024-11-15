@@ -179,7 +179,7 @@
             // labelReservas
             // 
             labelReservas.AutoSize = true;
-            labelReservas.Location = new Point(445, 207);
+            labelReservas.Location = new Point(466, 199);
             labelReservas.Name = "labelReservas";
             labelReservas.Size = new Size(120, 15);
             labelReservas.TabIndex = 10;
@@ -201,6 +201,7 @@
             btnAddModifyReserva.TabIndex = 8;
             btnAddModifyReserva.Text = "Añadir Reserva";
             btnAddModifyReserva.UseVisualStyleBackColor = true;
+            btnAddModifyReserva.Click += btnAddModifyReserva_Click;
             // 
             // comboBoxTipoReservas
             // 
@@ -231,8 +232,9 @@
             btnMesa6.Name = "btnMesa6";
             btnMesa6.Size = new Size(100, 67);
             btnMesa6.TabIndex = 5;
-            btnMesa6.Tag = "Mesa6";
+            btnMesa6.Tag = "";
             btnMesa6.UseVisualStyleBackColor = true;
+            btnMesa6.Click += btnMesa_Click;
             // 
             // btnMesa5
             // 
@@ -242,8 +244,9 @@
             btnMesa5.Name = "btnMesa5";
             btnMesa5.Size = new Size(100, 68);
             btnMesa5.TabIndex = 4;
-            btnMesa5.Tag = "Mesa5";
+            btnMesa5.Tag = "";
             btnMesa5.UseVisualStyleBackColor = true;
+            btnMesa5.Click += btnMesa_Click;
             // 
             // btnMesa4
             // 
@@ -253,8 +256,9 @@
             btnMesa4.Name = "btnMesa4";
             btnMesa4.Size = new Size(100, 68);
             btnMesa4.TabIndex = 3;
-            btnMesa4.Tag = "Mesa4";
+            btnMesa4.Tag = "";
             btnMesa4.UseVisualStyleBackColor = true;
+            btnMesa4.Click += btnMesa_Click;
             // 
             // btnMesa3
             // 
@@ -264,8 +268,9 @@
             btnMesa3.Name = "btnMesa3";
             btnMesa3.Size = new Size(100, 65);
             btnMesa3.TabIndex = 2;
-            btnMesa3.Tag = "Mesa3";
+            btnMesa3.Tag = "";
             btnMesa3.UseVisualStyleBackColor = true;
+            btnMesa3.Click += btnMesa_Click;
             // 
             // btnMesa2
             // 
@@ -275,8 +280,9 @@
             btnMesa2.Name = "btnMesa2";
             btnMesa2.Size = new Size(100, 67);
             btnMesa2.TabIndex = 1;
-            btnMesa2.Tag = "Mesa2";
+            btnMesa2.Tag = "";
             btnMesa2.UseVisualStyleBackColor = true;
+            btnMesa2.Click += btnMesa_Click;
             // 
             // btnMesa1
             // 
@@ -286,8 +292,9 @@
             btnMesa1.Name = "btnMesa1";
             btnMesa1.Size = new Size(100, 67);
             btnMesa1.TabIndex = 0;
-            btnMesa1.Tag = "Mesa1";
+            btnMesa1.Tag = "";
             btnMesa1.UseVisualStyleBackColor = true;
+            btnMesa1.Click += btnMesa_Click;
             // 
             // groupBoxAlmacen
             // 
