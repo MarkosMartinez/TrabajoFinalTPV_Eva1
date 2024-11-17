@@ -67,7 +67,6 @@
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             groupBoxPedido = new GroupBox();
-            listViewPedido = new ListView();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -76,7 +75,6 @@
             groupBoxAlmacen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
-            groupBoxPedido.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer1
@@ -94,10 +92,10 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
-            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Size = new Size(797, 449);
             splitContainer1.SplitterDistance = 152;
             splitContainer1.TabIndex = 2;
@@ -310,7 +308,7 @@
             groupBoxAlmacen.Controls.Add(textBoxGAProducto);
             groupBoxAlmacen.Location = new Point(0, 0);
             groupBoxAlmacen.Name = "groupBoxAlmacen";
-            groupBoxAlmacen.Size = new Size(641, 446);
+            groupBoxAlmacen.Size = new Size(638, 446);
             groupBoxAlmacen.TabIndex = 0;
             groupBoxAlmacen.TabStop = false;
             groupBoxAlmacen.Text = "Almacen";
@@ -494,24 +492,13 @@
             // 
             // groupBoxPedido
             // 
-            groupBoxPedido.Controls.Add(listViewPedido);
             groupBoxPedido.Location = new Point(0, 0);
             groupBoxPedido.Name = "groupBoxPedido";
-            groupBoxPedido.Size = new Size(429, 446);
+            groupBoxPedido.Size = new Size(638, 446);
             groupBoxPedido.TabIndex = 0;
             groupBoxPedido.TabStop = false;
-            groupBoxPedido.Text = "Consumos";
+            groupBoxPedido.Text = "Pedidos";
             groupBoxPedido.Visible = false;
-            // 
-            // listViewPedido
-            // 
-            listViewPedido.FullRowSelect = true;
-            listViewPedido.Location = new Point(6, 19);
-            listViewPedido.MultiSelect = false;
-            listViewPedido.Name = "listViewPedido";
-            listViewPedido.Size = new Size(436, 421);
-            listViewPedido.TabIndex = 1;
-            listViewPedido.UseCompatibleStateImageBehavior = false;
             // 
             // FormMenuPrincipal
             // 
@@ -533,7 +520,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxUsuarios.ResumeLayout(false);
             groupBoxUsuarios.PerformLayout();
-            groupBoxPedido.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -553,7 +539,6 @@
         private TextBox textBoxGUPass;
         private TextBox textBoxGUNombre;
         private ListView listViewGUUsuarios;
-        private ListView listViewPedido;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private TextBox textBoxGAProducto;
