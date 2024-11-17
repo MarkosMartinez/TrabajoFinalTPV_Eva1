@@ -5,6 +5,8 @@ namespace TrabajoFinalTPV_Eva1
     public partial class FormMenuPrincipal : Form
     {
         Boolean listoPrincipio = false;
+        List<string> mesasUsuario = new List<string>();
+        List<string> mesasUsuarioOriginal = new List<string>();
         private void cargarReservas()
         {
             updateListaReservas();
@@ -45,6 +47,8 @@ namespace TrabajoFinalTPV_Eva1
         }
         private void updateMesas()
         {
+            mesasUsuario.Clear();
+            mesasUsuarioOriginal.Clear();
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -82,6 +86,9 @@ namespace TrabajoFinalTPV_Eva1
                                     {
                                         btnMesa.BackgroundImage = Properties.Resources.mesa_ocupada_usuario;
                                         btnMesa.Tag = "ocupada_usuario";
+                                        mesasUsuario.Add(btnMesa.Name.ToString());
+
+
                                     }
                                     else
                                     {
@@ -92,6 +99,7 @@ namespace TrabajoFinalTPV_Eva1
                                 }
                             }
                         }
+                        mesasUsuarioOriginal = mesasUsuario.ToList();
                     }
                 }
             }
@@ -99,7 +107,7 @@ namespace TrabajoFinalTPV_Eva1
 
         private void comboBoxTipoReservas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(listoPrincipio) cargarReservas();
+            if (listoPrincipio) cargarReservas();
         }
 
         private void dateTimePickerReservas_ValueChanged(object sender, EventArgs e)
@@ -116,6 +124,10 @@ namespace TrabajoFinalTPV_Eva1
                 {
                     btnMesaClick.BackgroundImage = Properties.Resources.mesa_seleccionada;
                     btnMesaClick.Tag = "seleccionada";
+                    if (mesasUsuarioOriginal.Contains(btnMesaClick.Name.ToString()))
+                    {
+                        mesasUsuario.Add(btnMesaClick.Name.ToString());
+                    }
                 }
                 else if (btnMesaClick.Tag == "seleccionada")
                 {
@@ -126,64 +138,133 @@ namespace TrabajoFinalTPV_Eva1
                 {
                     btnMesaClick.BackgroundImage = Properties.Resources.mesa_libre;
                     btnMesaClick.Tag = "libre";
+                    mesasUsuario.Remove(btnMesaClick.Name.ToString());
                 }
             }
         }
+
         private void btnAddModifyReserva_Click(object sender, EventArgs e)
         {
-            if (comboBoxTipoReservas.SelectedItem == null || dateTimePickerReservas.Value == null)
-            {
-                MessageBox.Show("Por favor, seleccione un tipo de reserva y una fecha válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //Eliminar las reservas o mesas canceladas
+            var mesasFaltantes = mesasUsuarioOriginal.Except(mesasUsuario).Select(mesa => mesa.Replace("btnMesa", "")).ToList();
 
-            string tipoReserva = comboBoxTipoReservas.SelectedItem.ToString();
-            string fechaReserva = dateTimePickerReservas.Value.ToString("yyyy/MM/dd");
-            List<string> mesasSeleccionadas = new List<string>();
-
-            for (int i = 1; i <= 6; i++)
-            {
-                Button btnMesa = this.Controls.Find($"btnMesa{i}", true).FirstOrDefault() as Button;
-                if (btnMesa != null && btnMesa.Tag == "seleccionada")
-                {
-                    mesasSeleccionadas.Add(btnMesa.Name.Split("btnMesa")[1]);
-                }
-            }
-
-            if (mesasSeleccionadas.Count == 0)
-            {
-                MessageBox.Show("Por favor, seleccione al menos una mesa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string mesas = string.Join(",", mesasSeleccionadas);
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
-
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO Reservas (Fecha, Tipo, Mesa, Usuario) VALUES (@Fecha, @Tipo, @Mesa, @Usuario)";
-                using (OleDbCommand command = new OleDbCommand(query, connection))
+                foreach (var mesa in mesasFaltantes)
                 {
-                    command.Parameters.AddWithValue("@Fecha", fechaReserva);
-                    command.Parameters.AddWithValue("@Tipo", tipoReserva);
-                    command.Parameters.AddWithValue("@Mesa", mesas);
-                    command.Parameters.AddWithValue("@Usuario", user.ToLower());
-
-                    try
+                    string query = "SELECT Mesa FROM Reservas WHERE Usuario = @User AND Fecha = @Fecha AND Tipo = @Tipo AND Mesa LIKE @Mesa";
+                    using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Reserva añadida/modificada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        cargarReservas();
+                        command.Parameters.AddWithValue("@User", user.ToLower());
+                        command.Parameters.AddWithValue("@Fecha", dateTimePickerReservas.Value.Date);
+                        command.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
+                        command.Parameters.AddWithValue("@Mesa", "%" + mesa + "%");
+                        using (OleDbDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string[] mesasReservadas = reader["Mesa"].ToString().Split(',');
+                                if (mesasReservadas.Length > 1)
+                                {
+                                    // Eliminar solo la mesa de la reserva
+                                    string nuevasMesas = string.Join(",", mesasReservadas.Where(m => m != mesa));
+                                    MessageBox.Show(nuevasMesas.ToString());
+                                    string updateQuery = "UPDATE Reservas SET Mesa = @NuevasMesas WHERE Usuario = @User AND Mesa LIKE @Mesa";
+                                    using (OleDbCommand updateCommand = new OleDbCommand(updateQuery, connection))
+                                    {
+                                        updateCommand.Parameters.AddWithValue("@NuevasMesas", nuevasMesas);
+                                        updateCommand.Parameters.AddWithValue("@User", user.ToLower());
+                                        updateCommand.Parameters.AddWithValue("@Mesa", "%" + mesa + "%");
+                                        updateCommand.ExecuteNonQuery();
+                                    }
+                                }
+                                else
+                                {
+                                    // Eliminar la reserva completa
+                                    string deleteQuery = "DELETE FROM Reservas WHERE Usuario = @User AND Mesa = @Mesa";
+                                    using (OleDbCommand deleteCommand = new OleDbCommand(deleteQuery, connection))
+                                    {
+                                        deleteCommand.Parameters.AddWithValue("@User", user.ToLower());
+                                        deleteCommand.Parameters.AddWithValue("@Mesa", mesa);
+                                        deleteCommand.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
                     }
-                    catch (Exception ex)
+                }
+                mesasUsuario = mesasUsuario.Except(mesasFaltantes.Select(m => "btnMesa" + m)).ToList();
+                foreach (var mesa in mesasFaltantes)
+                {
+                    Button btnMesa = this.Controls.Find($"btnMesa{mesa}", true).FirstOrDefault() as Button;
+                    if (btnMesa != null)
                     {
-                        MessageBox.Show($"Error al añadir/modificar la reserva: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btnMesa.BackgroundImage = Properties.Resources.mesa_libre;
+                        btnMesa.Tag = "libre";
+                    }
+                }
+
+            }
+
+            List<string> mesasSeleccionadas = new List<string>();
+            for (int i = 1; i <= 6; i++)
+            {
+                Button btnMesa = this.Controls.Find($"btnMesa{i}", true).FirstOrDefault() as Button;
+                if (btnMesa != null)
+                {
+                    if(btnMesa.Tag == "seleccionada")
+                    mesasSeleccionadas.Add(btnMesa.Name.ToString().Replace("btnMesa", ""));
+                }
+            }
+
+            foreach (var mesa in mesasSeleccionadas)
+            {
+                string query = "SELECT Mesa FROM Reservas WHERE Usuario = @User AND Fecha = @Fecha AND Tipo = @Tipo";
+                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                {
+                    connection.Open();
+                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@User", user.ToLower());
+                        command.Parameters.AddWithValue("@Fecha", dateTimePickerReservas.Value.Date);
+                        command.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
+                        using (OleDbDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string mesasReservadas = reader["Mesa"].ToString();
+                                string nuevasMesas = string.Join(",", mesasReservadas.Split(',').Distinct()) + "," + mesa.Replace("btnMesa", "");
+                                string updateQuery = "UPDATE Reservas SET Mesa = @NuevasMesas WHERE Usuario = @User AND Fecha = @Fecha AND Tipo = @Tipo";
+                                using (OleDbCommand updateCommand = new OleDbCommand(updateQuery, connection))
+                                {
+                                    updateCommand.Parameters.AddWithValue("@NuevasMesas", nuevasMesas);
+                                    updateCommand.Parameters.AddWithValue("@User", user.ToLower());
+                                    updateCommand.Parameters.AddWithValue("@Fecha", dateTimePickerReservas.Value.Date);
+                                    updateCommand.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
+                                    updateCommand.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                string insertQuery = "INSERT INTO Reservas (Fecha, Tipo, Mesa, Usuario) VALUES (@Fecha, @Tipo, @Mesa, @User)";
+                                using (OleDbCommand insertCommand = new OleDbCommand(insertQuery, connection))
+                                {
+                                    insertCommand.Parameters.AddWithValue("@Fecha", dateTimePickerReservas.Value.Date);
+                                    insertCommand.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
+                                    insertCommand.Parameters.AddWithValue("@Mesa", mesa.Replace("btnMesa", ""));
+                                    insertCommand.Parameters.AddWithValue("@User", user.ToLower());
+                                    insertCommand.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
             }
+            MessageBox.Show("Reservas modificadas correctamente", "Reserva", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            cargarReservas();
         }
-
 
     }
 }
