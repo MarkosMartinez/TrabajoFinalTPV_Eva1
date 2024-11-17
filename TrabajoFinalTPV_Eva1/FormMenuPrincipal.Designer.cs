@@ -199,7 +199,7 @@
             btnAddModifyReserva.Name = "btnAddModifyReserva";
             btnAddModifyReserva.Size = new Size(100, 23);
             btnAddModifyReserva.TabIndex = 8;
-            btnAddModifyReserva.Text = "Añadir Reserva";
+            btnAddModifyReserva.Text = "Modificar Reserva";
             btnAddModifyReserva.UseVisualStyleBackColor = true;
             btnAddModifyReserva.Click += btnAddModifyReserva_Click;
             // 

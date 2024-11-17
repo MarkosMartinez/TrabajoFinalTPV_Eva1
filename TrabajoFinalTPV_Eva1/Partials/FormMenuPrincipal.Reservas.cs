@@ -170,7 +170,6 @@ namespace TrabajoFinalTPV_Eva1
                                 {
                                     // Eliminar solo la mesa de la reserva
                                     string nuevasMesas = string.Join(",", mesasReservadas.Where(m => m != mesa));
-                                    MessageBox.Show(nuevasMesas.ToString());
                                     string updateQuery = "UPDATE Reservas SET Mesa = @NuevasMesas WHERE Usuario = @User AND Mesa LIKE @Mesa";
                                     using (OleDbCommand updateCommand = new OleDbCommand(updateQuery, connection))
                                     {
@@ -235,7 +234,8 @@ namespace TrabajoFinalTPV_Eva1
                             if (reader.Read())
                             {
                                 string mesasReservadas = reader["Mesa"].ToString();
-                                string nuevasMesas = string.Join(",", mesasReservadas.Split(',').Distinct()) + "," + mesa.Replace("btnMesa", "");
+                                string nuevasMesas = string.Join(",", mesasReservadas.Split(',').Distinct().Where(m => !string.IsNullOrEmpty(m))) + "," + mesa.Replace("btnMesa", "");
+                                nuevasMesas = string.Join(",", nuevasMesas.Split(',').Distinct().Where(m => !string.IsNullOrEmpty(m)));
                                 string updateQuery = "UPDATE Reservas SET Mesa = @NuevasMesas WHERE Usuario = @User AND Fecha = @Fecha AND Tipo = @Tipo";
                                 using (OleDbCommand updateCommand = new OleDbCommand(updateQuery, connection))
                                 {
