@@ -148,6 +148,11 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnGASubirLocal_Click(object sender, EventArgs e)
         {
+            if(textBoxGAProducto.Text == string.Empty || textBoxGAProducto.Text == " ")
+            {
+                MessageBox.Show("Introduce un nombre de producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
@@ -168,7 +173,7 @@ namespace TrabajoFinalTPV_Eva1
                     string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string imagesDirectory = Path.Combine(projectDirectory, "../../../../assets/ProductosIMG");
                     Directory.CreateDirectory(imagesDirectory);
-                    string destFilePath = Path.Combine(imagesDirectory, Path.GetFileName(sourceFilePath));
+                    string destFilePath = Path.Combine(imagesDirectory, $"{textBoxGAProducto.Text}{Path.GetExtension(sourceFilePath)}");
                     File.Copy(sourceFilePath, destFilePath, true);
                     string imagePath = destFilePath;
 

@@ -102,6 +102,12 @@ namespace TrabajoFinalTPV_Eva1
             form1.Show();
             this.Close();
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Form1 form1 = new Form1();
+            form1.Show();
+        }
 
     }
 }

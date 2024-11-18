@@ -34,6 +34,7 @@
             btnAlmacen = new Button();
             btnPedido = new Button();
             btnReservas = new Button();
+            groupBoxPedido = new GroupBox();
             groupBoxReservas = new GroupBox();
             labelReservas = new Label();
             listViewReservas = new ListView();
@@ -66,7 +67,6 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
-            groupBoxPedido = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -92,8 +92,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
+            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
             splitContainer1.Size = new Size(797, 449);
@@ -152,6 +152,16 @@
             btnReservas.Text = "Gestionar Reservas";
             btnReservas.UseVisualStyleBackColor = true;
             btnReservas.Click += btnReservas_Click;
+            // 
+            // groupBoxPedido
+            // 
+            groupBoxPedido.Location = new Point(0, 0);
+            groupBoxPedido.Name = "groupBoxPedido";
+            groupBoxPedido.Size = new Size(638, 446);
+            groupBoxPedido.TabIndex = 0;
+            groupBoxPedido.TabStop = false;
+            groupBoxPedido.Text = "Pedidos";
+            groupBoxPedido.Visible = false;
             // 
             // groupBoxReservas
             // 
@@ -489,16 +499,6 @@
             listViewGUUsuarios.TabIndex = 0;
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
-            // 
-            // groupBoxPedido
-            // 
-            groupBoxPedido.Location = new Point(0, 0);
-            groupBoxPedido.Name = "groupBoxPedido";
-            groupBoxPedido.Size = new Size(638, 446);
-            groupBoxPedido.TabIndex = 0;
-            groupBoxPedido.TabStop = false;
-            groupBoxPedido.Text = "Pedidos";
-            groupBoxPedido.Visible = false;
             // 
             // FormMenuPrincipal
             // 
