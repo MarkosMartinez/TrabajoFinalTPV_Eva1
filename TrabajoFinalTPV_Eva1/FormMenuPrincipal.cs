@@ -12,6 +12,7 @@ namespace TrabajoFinalTPV_Eva1
         private string userSeleccionado = null;
         private string? productoSeleccionado;
         private string? productoIMGPath;
+        private string categoriaSeleccionada = null;
         public FormMenuPrincipal(string userName, string userType)
         {
             InitializeComponent();
@@ -54,7 +55,7 @@ namespace TrabajoFinalTPV_Eva1
             groupBoxAlmacen.Visible = false;
             groupBoxReservas.Visible = false;
             groupBoxUsuarios.Visible = false;
-            //CargarPedidos();
+            cargarCategoriaProductosPedido();
         }
 
         private void btnReservas_Click(object sender, EventArgs e)

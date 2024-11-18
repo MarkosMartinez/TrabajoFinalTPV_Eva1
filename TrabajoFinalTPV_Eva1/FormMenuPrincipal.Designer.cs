@@ -34,6 +34,12 @@
             btnAlmacen = new Button();
             btnPedido = new Button();
             btnReservas = new Button();
+            groupBoxPedido = new GroupBox();
+            pictureBoxPreviewProducto = new PictureBox();
+            buttonTicket = new Button();
+            listViewProductos = new ListView();
+            listViewCategorias = new ListView();
+            dataGridViewPedido = new DataGridView();
             groupBoxReservas = new GroupBox();
             labelReservas = new Label();
             listViewReservas = new ListView();
@@ -46,7 +52,6 @@
             btnMesa3 = new Button();
             btnMesa2 = new Button();
             btnMesa1 = new Button();
-            groupBoxPedido = new GroupBox();
             groupBoxAlmacen = new GroupBox();
             btnGABuscarIMG = new Button();
             btnGASubirLocal = new Button();
@@ -67,18 +72,17 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
-            dataGridView1 = new DataGridView();
-            listView1 = new ListView();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            groupBoxReservas.SuspendLayout();
             groupBoxPedido.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).BeginInit();
+            groupBoxReservas.SuspendLayout();
             groupBoxAlmacen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // splitContainer1
@@ -156,6 +160,69 @@
             btnReservas.Text = "Gestionar Reservas";
             btnReservas.UseVisualStyleBackColor = true;
             btnReservas.Click += btnReservas_Click;
+            // 
+            // groupBoxPedido
+            // 
+            groupBoxPedido.Controls.Add(pictureBoxPreviewProducto);
+            groupBoxPedido.Controls.Add(buttonTicket);
+            groupBoxPedido.Controls.Add(listViewProductos);
+            groupBoxPedido.Controls.Add(listViewCategorias);
+            groupBoxPedido.Controls.Add(dataGridViewPedido);
+            groupBoxPedido.Location = new Point(0, 0);
+            groupBoxPedido.Name = "groupBoxPedido";
+            groupBoxPedido.Size = new Size(638, 446);
+            groupBoxPedido.TabIndex = 0;
+            groupBoxPedido.TabStop = false;
+            groupBoxPedido.Text = "Pedidos";
+            groupBoxPedido.Visible = false;
+            // 
+            // pictureBoxPreviewProducto
+            // 
+            pictureBoxPreviewProducto.Location = new Point(496, 302);
+            pictureBoxPreviewProducto.Name = "pictureBoxPreviewProducto";
+            pictureBoxPreviewProducto.Size = new Size(145, 147);
+            pictureBoxPreviewProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxPreviewProducto.TabIndex = 4;
+            pictureBoxPreviewProducto.TabStop = false;
+            // 
+            // buttonTicket
+            // 
+            buttonTicket.Location = new Point(523, 277);
+            buttonTicket.Name = "buttonTicket";
+            buttonTicket.Size = new Size(102, 23);
+            buttonTicket.TabIndex = 3;
+            buttonTicket.Text = "Generar Ticket";
+            buttonTicket.UseVisualStyleBackColor = true;
+            // 
+            // listViewProductos
+            // 
+            listViewProductos.FullRowSelect = true;
+            listViewProductos.Location = new Point(169, 302);
+            listViewProductos.MultiSelect = false;
+            listViewProductos.Name = "listViewProductos";
+            listViewProductos.Size = new Size(233, 144);
+            listViewProductos.TabIndex = 2;
+            listViewProductos.UseCompatibleStateImageBehavior = false;
+            listViewProductos.SelectedIndexChanged += listViewProductos_SelectedIndexChanged;
+            // 
+            // listViewCategorias
+            // 
+            listViewCategorias.FullRowSelect = true;
+            listViewCategorias.Location = new Point(1, 302);
+            listViewCategorias.MultiSelect = false;
+            listViewCategorias.Name = "listViewCategorias";
+            listViewCategorias.Size = new Size(155, 144);
+            listViewCategorias.TabIndex = 1;
+            listViewCategorias.UseCompatibleStateImageBehavior = false;
+            listViewCategorias.SelectedIndexChanged += listViewCategorias_SelectedIndexChanged;
+            // 
+            // dataGridViewPedido
+            // 
+            dataGridViewPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewPedido.Location = new Point(1, 15);
+            dataGridViewPedido.Name = "dataGridViewPedido";
+            dataGridViewPedido.Size = new Size(493, 285);
+            dataGridViewPedido.TabIndex = 0;
             // 
             // groupBoxReservas
             // 
@@ -297,18 +364,6 @@
             btnMesa1.Tag = "";
             btnMesa1.UseVisualStyleBackColor = true;
             btnMesa1.Click += btnMesa_Click;
-            // 
-            // groupBoxPedido
-            // 
-            groupBoxPedido.Controls.Add(listView1);
-            groupBoxPedido.Controls.Add(dataGridView1);
-            groupBoxPedido.Location = new Point(0, 0);
-            groupBoxPedido.Name = "groupBoxPedido";
-            groupBoxPedido.Size = new Size(638, 446);
-            groupBoxPedido.TabIndex = 0;
-            groupBoxPedido.TabStop = false;
-            groupBoxPedido.Text = "Pedidos";
-            groupBoxPedido.Visible = false;
             // 
             // groupBoxAlmacen
             // 
@@ -506,22 +561,6 @@
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(0, 11);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(493, 285);
-            dataGridView1.TabIndex = 0;
-            // 
-            // listView1
-            // 
-            listView1.Location = new Point(0, 302);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(179, 144);
-            listView1.TabIndex = 1;
-            listView1.UseCompatibleStateImageBehavior = false;
-            // 
             // FormMenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -535,15 +574,16 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            groupBoxPedido.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).EndInit();
             groupBoxReservas.ResumeLayout(false);
             groupBoxReservas.PerformLayout();
-            groupBoxPedido.ResumeLayout(false);
             groupBoxAlmacen.ResumeLayout(false);
             groupBoxAlmacen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxUsuarios.ResumeLayout(false);
             groupBoxUsuarios.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -587,7 +627,10 @@
         private DateTimePicker dateTimePickerReservas;
         private ListView listViewReservas;
         private Label labelReservas;
-        private DataGridView dataGridView1;
-        private ListView listView1;
+        private DataGridView dataGridViewPedido;
+        private ListView listViewCategorias;
+        private ListView listViewProductos;
+        private Button buttonTicket;
+        private PictureBox pictureBoxPreviewProducto;
     }
 }

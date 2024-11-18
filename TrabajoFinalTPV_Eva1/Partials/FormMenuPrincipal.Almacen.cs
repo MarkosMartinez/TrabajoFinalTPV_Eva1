@@ -53,7 +53,7 @@ namespace TrabajoFinalTPV_Eva1
                 textBoxGACantidad.Text = selectedItem.SubItems[2].Text;
                 textBoxGAPrecio.Text = selectedItem.SubItems[3].Text;
                 btnGAEliminar.Enabled = true;
-                cargarImagen(textBoxGAProducto.Text);
+                cargarImagen(textBoxGAProducto.Text, pictureBoxGAProducto);
             }
             else
             {
@@ -221,7 +221,9 @@ namespace TrabajoFinalTPV_Eva1
 
                                 using (HttpClient imageClient = new HttpClient())
                                 {
-                                    HttpResponseMessage imageResponse = await imageClient.GetAsync(imageUrl);
+                                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, imageUrl);
+                                    request.Headers.Add("User-Agent", "TrabajoFinalTPV_Eva1 (Windows NT 10.0; Win64; x64)"); //El User-Agent se usa para que en algunas webs no de error al obtener las imagenes. Por ejemplo, Wikipedia.
+                                    HttpResponseMessage imageResponse = await imageClient.SendAsync(request);
                                     if (imageResponse.IsSuccessStatusCode)
                                     {
                                         using (Stream imageStream = await imageResponse.Content.ReadAsStreamAsync())
@@ -299,7 +301,7 @@ namespace TrabajoFinalTPV_Eva1
             }
         }
 
-        private void cargarImagen(string Producto)
+        private void cargarImagen(string Producto, PictureBox pictureBox)
         {
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -314,10 +316,23 @@ namespace TrabajoFinalTPV_Eva1
                         if (reader.Read())
                         {
                             string imgPath = reader["imgPath"].ToString() ?? string.Empty;
-                            if (!string.IsNullOrEmpty(imgPath))
+                            if (!string.IsNullOrEmpty(imgPath) && File.Exists(Uri.UnescapeDataString(imgPath)))
                             {
-                                pictureBoxGAProducto.Image = Image.FromFile(Uri.UnescapeDataString(imgPath));
+                                if (pictureBox.Image != null)
+                                {
+                                    pictureBox.Image.Dispose();
+                                    pictureBox.Image = null;
+                                }
+                                pictureBox.Image = Image.FromFile(Uri.UnescapeDataString(imgPath));
                             }
+                            else
+                            {
+                                pictureBox.Image = null;
+                            }
+                        }
+                        else
+                        {
+                            pictureBox.Image = null;
                         }
                     }
                 }
