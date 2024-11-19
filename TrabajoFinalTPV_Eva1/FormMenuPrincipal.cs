@@ -99,8 +99,6 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            form1.Show();
             this.Close();
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -109,6 +107,7 @@ namespace TrabajoFinalTPV_Eva1
             Form1 form1 = new Form1();
             form1.Show();
         }
+
 
     }
 }

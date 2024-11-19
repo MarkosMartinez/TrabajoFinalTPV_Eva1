@@ -17,6 +17,7 @@ namespace TrabajoFinalTPV_Eva1
             listViewGAAlmacen.Columns.Add("Categoria", 100);
             listViewGAAlmacen.Columns.Add("Cantidad", 70);
             listViewGAAlmacen.Columns.Add("Precio", 50);
+            productoSeleccionado = null;
 
             // Conectar a la base de datos de Access
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
@@ -86,6 +87,7 @@ namespace TrabajoFinalTPV_Eva1
                         command.Parameters.AddWithValue("@Producto", productoSeleccionado);
                         command.ExecuteNonQuery();
                     }
+                    productoSeleccionado = null;
                 }
                 cargarAlmacen();
             }
@@ -144,6 +146,18 @@ namespace TrabajoFinalTPV_Eva1
                 }
             }
             cargarAlmacen();
+            productoSeleccionado = null;
+            textBoxGACantidad.Text = string.Empty;
+            textBoxGAProducto.Text = string.Empty;
+            textBoxGAPrecio.Text = string.Empty;
+            textBoxGACategoria.Text = string.Empty;
+            btnGAAddModify.Text = "Añadir";
+            btnGAEliminar.Enabled = false;
+            if (pictureBoxGAProducto.Image != null)
+            {
+                pictureBoxGAProducto.Image.Dispose();
+                pictureBoxGAProducto.Image = null;
+            }
         }
 
         private void btnGASubirLocal_Click(object sender, EventArgs e)
@@ -323,7 +337,11 @@ namespace TrabajoFinalTPV_Eva1
                                     pictureBox.Image.Dispose();
                                     pictureBox.Image = null;
                                 }
-                                pictureBox.Image = Image.FromFile(Uri.UnescapeDataString(imgPath));
+
+                                using (MemoryStream memoryStream = new MemoryStream(File.ReadAllBytes(Uri.UnescapeDataString(imgPath))))
+                                {
+                                    pictureBox.Image = Image.FromStream(memoryStream);
+                                }
                             }
                             else
                             {

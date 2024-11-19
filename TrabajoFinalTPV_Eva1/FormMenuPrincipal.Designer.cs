@@ -35,6 +35,11 @@
             btnPedido = new Button();
             btnReservas = new Button();
             groupBoxPedido = new GroupBox();
+            labelPTotal = new Label();
+            textBoxPTotal = new TextBox();
+            buttonPEliminarProducto = new Button();
+            buttonModPCantidad = new Button();
+            textBoxPCantidad = new TextBox();
             pictureBoxPreviewProducto = new PictureBox();
             buttonTicket = new Button();
             listViewProductos = new ListView();
@@ -163,6 +168,11 @@
             // 
             // groupBoxPedido
             // 
+            groupBoxPedido.Controls.Add(labelPTotal);
+            groupBoxPedido.Controls.Add(textBoxPTotal);
+            groupBoxPedido.Controls.Add(buttonPEliminarProducto);
+            groupBoxPedido.Controls.Add(buttonModPCantidad);
+            groupBoxPedido.Controls.Add(textBoxPCantidad);
             groupBoxPedido.Controls.Add(pictureBoxPreviewProducto);
             groupBoxPedido.Controls.Add(buttonTicket);
             groupBoxPedido.Controls.Add(listViewProductos);
@@ -176,6 +186,54 @@
             groupBoxPedido.Text = "Pedidos";
             groupBoxPedido.Visible = false;
             // 
+            // labelPTotal
+            // 
+            labelPTotal.AutoSize = true;
+            labelPTotal.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPTotal.Location = new Point(511, 214);
+            labelPTotal.Name = "labelPTotal";
+            labelPTotal.Size = new Size(82, 17);
+            labelPTotal.TabIndex = 9;
+            labelPTotal.Text = "Precio final:";
+            // 
+            // textBoxPTotal
+            // 
+            textBoxPTotal.Location = new Point(511, 236);
+            textBoxPTotal.Name = "textBoxPTotal";
+            textBoxPTotal.ReadOnly = true;
+            textBoxPTotal.Size = new Size(114, 23);
+            textBoxPTotal.TabIndex = 8;
+            // 
+            // buttonPEliminarProducto
+            // 
+            buttonPEliminarProducto.Location = new Point(511, 89);
+            buttonPEliminarProducto.Name = "buttonPEliminarProducto";
+            buttonPEliminarProducto.Size = new Size(114, 23);
+            buttonPEliminarProducto.TabIndex = 7;
+            buttonPEliminarProducto.Text = "Eliminar producto";
+            buttonPEliminarProducto.UseVisualStyleBackColor = true;
+            buttonPEliminarProducto.Visible = false;
+            buttonPEliminarProducto.Click += buttonPEliminarProducto_Click;
+            // 
+            // buttonModPCantidad
+            // 
+            buttonModPCantidad.Location = new Point(511, 54);
+            buttonModPCantidad.Name = "buttonModPCantidad";
+            buttonModPCantidad.Size = new Size(114, 23);
+            buttonModPCantidad.TabIndex = 6;
+            buttonModPCantidad.Text = "Modificar cantidad";
+            buttonModPCantidad.UseVisualStyleBackColor = true;
+            buttonModPCantidad.Visible = false;
+            buttonModPCantidad.Click += buttonModPCantidad_Click;
+            // 
+            // textBoxPCantidad
+            // 
+            textBoxPCantidad.Location = new Point(511, 21);
+            textBoxPCantidad.Name = "textBoxPCantidad";
+            textBoxPCantidad.Size = new Size(114, 23);
+            textBoxPCantidad.TabIndex = 5;
+            textBoxPCantidad.Visible = false;
+            // 
             // pictureBoxPreviewProducto
             // 
             pictureBoxPreviewProducto.Location = new Point(496, 302);
@@ -187,12 +245,14 @@
             // 
             // buttonTicket
             // 
-            buttonTicket.Location = new Point(523, 277);
+            buttonTicket.Enabled = false;
+            buttonTicket.Location = new Point(511, 273);
             buttonTicket.Name = "buttonTicket";
-            buttonTicket.Size = new Size(102, 23);
+            buttonTicket.Size = new Size(112, 23);
             buttonTicket.TabIndex = 3;
             buttonTicket.Text = "Generar Ticket";
             buttonTicket.UseVisualStyleBackColor = true;
+            buttonTicket.Click += buttonTicket_Click;
             // 
             // listViewProductos
             // 
@@ -204,7 +264,7 @@
             listViewProductos.TabIndex = 2;
             listViewProductos.UseCompatibleStateImageBehavior = false;
             listViewProductos.SelectedIndexChanged += listViewProductos_SelectedIndexChanged;
-            listViewProductos.DoubleClick += this.listViewProductos_DoubleClick;
+            listViewProductos.DoubleClick += listViewProductos_DoubleClick;
             // 
             // listViewCategorias
             // 
@@ -221,9 +281,13 @@
             // 
             dataGridViewPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewPedido.Location = new Point(2, 15);
+            dataGridViewPedido.MultiSelect = false;
             dataGridViewPedido.Name = "dataGridViewPedido";
+            dataGridViewPedido.RowTemplate.ReadOnly = true;
+            dataGridViewPedido.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewPedido.Size = new Size(493, 285);
             dataGridViewPedido.TabIndex = 0;
+            dataGridViewPedido.SelectionChanged += dataGridViewPedido_SelectionChanged;
             // 
             // groupBoxReservas
             // 
@@ -576,6 +640,7 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             groupBoxPedido.ResumeLayout(false);
+            groupBoxPedido.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).EndInit();
             groupBoxReservas.ResumeLayout(false);
@@ -633,5 +698,10 @@
         private ListView listViewProductos;
         private Button buttonTicket;
         private PictureBox pictureBoxPreviewProducto;
+        private Button buttonModPCantidad;
+        private TextBox textBoxPCantidad;
+        private Button buttonPEliminarProducto;
+        private Label labelPTotal;
+        private TextBox textBoxPTotal;
     }
 }
