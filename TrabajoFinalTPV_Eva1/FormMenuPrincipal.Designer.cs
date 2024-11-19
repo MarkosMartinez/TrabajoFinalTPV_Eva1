@@ -204,11 +204,12 @@
             listViewProductos.TabIndex = 2;
             listViewProductos.UseCompatibleStateImageBehavior = false;
             listViewProductos.SelectedIndexChanged += listViewProductos_SelectedIndexChanged;
+            listViewProductos.DoubleClick += this.listViewProductos_DoubleClick;
             // 
             // listViewCategorias
             // 
             listViewCategorias.FullRowSelect = true;
-            listViewCategorias.Location = new Point(1, 302);
+            listViewCategorias.Location = new Point(2, 302);
             listViewCategorias.MultiSelect = false;
             listViewCategorias.Name = "listViewCategorias";
             listViewCategorias.Size = new Size(155, 144);
@@ -219,7 +220,7 @@
             // dataGridViewPedido
             // 
             dataGridViewPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewPedido.Location = new Point(1, 15);
+            dataGridViewPedido.Location = new Point(2, 15);
             dataGridViewPedido.Name = "dataGridViewPedido";
             dataGridViewPedido.Size = new Size(493, 285);
             dataGridViewPedido.TabIndex = 0;

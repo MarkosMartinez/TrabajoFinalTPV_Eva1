@@ -11,6 +11,11 @@ namespace TrabajoFinalTPV_Eva1
             listViewProductos.Columns.Clear();
             listViewCategorias.Columns.Add("Categorias", 150);
 
+            //Añade las columnas al dataGridViewPedido
+            dataGridViewPedido.Columns.Add("Producto", "Producto");
+            dataGridViewPedido.Columns.Add("Cantidad", "Cantidad");
+            dataGridViewPedido.Columns.Add("Precio", "Precio");
+
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -88,6 +93,17 @@ namespace TrabajoFinalTPV_Eva1
                     pictureBoxPreviewProducto.Image.Dispose();
                     pictureBoxPreviewProducto.Image = null;
                 }
+            }
+        }
+
+        private void listViewProductos_DoubleClick(object sender, EventArgs e)
+        {
+            if (listViewProductos.SelectedItems.Count == 1)
+            {
+                string producto = listViewProductos.SelectedItems[0].SubItems[0].Text;
+                string cantidad = "0"; //Arreglarlo, arreglar el duplicado, añadir imagenes?
+                string precio = listViewProductos.SelectedItems[0].SubItems[2].Text;
+                dataGridViewPedido.Rows.Add(producto, 1, precio);
             }
         }
 
