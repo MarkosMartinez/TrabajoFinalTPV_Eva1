@@ -10,8 +10,8 @@ namespace TrabajoFinalTPV_Eva1
         private string userType;
         private string user;
         private string userSeleccionado = null;
-        private string? productoSeleccionado;
-        private string? productoIMGPath;
+        private string productoSeleccionado = null;
+        private string productoIMGPath = null;
         private string categoriaSeleccionada = null;
         private Form formLogin = null;
         public FormMenuPrincipal(string userName, string userType, Form formLogin)

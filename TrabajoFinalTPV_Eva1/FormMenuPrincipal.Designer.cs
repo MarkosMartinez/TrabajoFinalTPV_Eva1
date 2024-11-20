@@ -35,17 +35,6 @@
             btnAlmacen = new Button();
             btnPedido = new Button();
             btnReservas = new Button();
-            groupBoxAlmacen = new GroupBox();
-            comboBoxGACategoria = new ComboBox();
-            btnGABuscarIMG = new Button();
-            btnGASubirLocal = new Button();
-            pictureBoxGAProducto = new PictureBox();
-            listViewGAAlmacen = new ListView();
-            btnGAEliminar = new Button();
-            btnGAAddModify = new Button();
-            textBoxGAPrecio = new TextBox();
-            textBoxGACantidad = new TextBox();
-            textBoxGAProducto = new TextBox();
             groupBoxReservas = new GroupBox();
             labelReservas = new Label();
             listViewReservas = new ListView();
@@ -70,6 +59,17 @@
             listViewProductos = new ListView();
             listViewCategorias = new ListView();
             dataGridViewPedido = new DataGridView();
+            groupBoxAlmacen = new GroupBox();
+            comboBoxGACategoria = new ComboBox();
+            btnGABuscarIMG = new Button();
+            btnGASubirLocal = new Button();
+            pictureBoxGAProducto = new PictureBox();
+            listViewGAAlmacen = new ListView();
+            btnGAEliminar = new Button();
+            btnGAAddModify = new Button();
+            textBoxGAPrecio = new TextBox();
+            textBoxGACantidad = new TextBox();
+            textBoxGAProducto = new TextBox();
             groupBoxUsuarios = new GroupBox();
             textBoxGUNombre = new TextBox();
             textBoxGUPass = new TextBox();
@@ -83,13 +83,13 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            groupBoxAlmacen.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxReservas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBoxPedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).BeginInit();
+            groupBoxAlmacen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
             SuspendLayout();
             // 
@@ -109,9 +109,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxPedido);
+            splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
             splitContainer1.Size = new Size(797, 449);
             splitContainer1.SplitterDistance = 152;
@@ -120,21 +120,27 @@
             // 
             // bntExit
             // 
-            bntExit.Location = new Point(0, 417);
+            bntExit.BackgroundImage = Properties.Resources.exit;
+            bntExit.BackgroundImageLayout = ImageLayout.Zoom;
+            bntExit.FlatAppearance.BorderSize = 0;
+            bntExit.FlatStyle = FlatStyle.Flat;
+            bntExit.Location = new Point(10, 411);
             bntExit.Name = "bntExit";
-            bntExit.Size = new Size(50, 23);
+            bntExit.Size = new Size(40, 30);
             bntExit.TabIndex = 5;
-            bntExit.Text = "Salir";
             bntExit.UseVisualStyleBackColor = true;
             bntExit.Click += btnExit_Click;
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(56, 417);
+            btnLogout.BackgroundImage = Properties.Resources.logout;
+            btnLogout.BackgroundImageLayout = ImageLayout.Zoom;
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Location = new Point(107, 410);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(93, 23);
+            btnLogout.Size = new Size(40, 30);
             btnLogout.TabIndex = 4;
-            btnLogout.Text = "Cerrar Sesión";
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
             // 
@@ -179,126 +185,6 @@
             btnReservas.Text = "Gestionar Reservas";
             btnReservas.UseVisualStyleBackColor = true;
             btnReservas.Click += btnReservas_Click;
-            // 
-            // groupBoxAlmacen
-            // 
-            groupBoxAlmacen.Controls.Add(comboBoxGACategoria);
-            groupBoxAlmacen.Controls.Add(btnGABuscarIMG);
-            groupBoxAlmacen.Controls.Add(btnGASubirLocal);
-            groupBoxAlmacen.Controls.Add(pictureBoxGAProducto);
-            groupBoxAlmacen.Controls.Add(listViewGAAlmacen);
-            groupBoxAlmacen.Controls.Add(btnGAEliminar);
-            groupBoxAlmacen.Controls.Add(btnGAAddModify);
-            groupBoxAlmacen.Controls.Add(textBoxGAPrecio);
-            groupBoxAlmacen.Controls.Add(textBoxGACantidad);
-            groupBoxAlmacen.Controls.Add(textBoxGAProducto);
-            groupBoxAlmacen.Location = new Point(0, 0);
-            groupBoxAlmacen.Name = "groupBoxAlmacen";
-            groupBoxAlmacen.Size = new Size(638, 446);
-            groupBoxAlmacen.TabIndex = 0;
-            groupBoxAlmacen.TabStop = false;
-            groupBoxAlmacen.Text = "Almacen";
-            groupBoxAlmacen.Visible = false;
-            // 
-            // comboBoxGACategoria
-            // 
-            comboBoxGACategoria.FormattingEnabled = true;
-            comboBoxGACategoria.Location = new Point(448, 100);
-            comboBoxGACategoria.Name = "comboBoxGACategoria";
-            comboBoxGACategoria.Size = new Size(174, 23);
-            comboBoxGACategoria.TabIndex = 13;
-            comboBoxGACategoria.SelectedIndexChanged += comboBoxGACategoria_SelectedIndexChanged;
-            // 
-            // btnGABuscarIMG
-            // 
-            btnGABuscarIMG.BackgroundImage = Properties.Resources.buscar;
-            btnGABuscarIMG.BackgroundImageLayout = ImageLayout.Zoom;
-            btnGABuscarIMG.FlatAppearance.BorderSize = 0;
-            btnGABuscarIMG.FlatStyle = FlatStyle.Flat;
-            btnGABuscarIMG.Location = new Point(548, 129);
-            btnGABuscarIMG.Name = "btnGABuscarIMG";
-            btnGABuscarIMG.Size = new Size(75, 32);
-            btnGABuscarIMG.TabIndex = 12;
-            btnGABuscarIMG.UseVisualStyleBackColor = true;
-            btnGABuscarIMG.Click += btnGABuscarIMG_Click;
-            // 
-            // btnGASubirLocal
-            // 
-            btnGASubirLocal.BackgroundImage = Properties.Resources.subir;
-            btnGASubirLocal.BackgroundImageLayout = ImageLayout.Zoom;
-            btnGASubirLocal.FlatAppearance.BorderSize = 0;
-            btnGASubirLocal.FlatStyle = FlatStyle.Flat;
-            btnGASubirLocal.Location = new Point(448, 129);
-            btnGASubirLocal.Name = "btnGASubirLocal";
-            btnGASubirLocal.Size = new Size(75, 32);
-            btnGASubirLocal.TabIndex = 11;
-            btnGASubirLocal.UseVisualStyleBackColor = true;
-            btnGASubirLocal.Click += btnGASubirLocal_Click;
-            // 
-            // pictureBoxGAProducto
-            // 
-            pictureBoxGAProducto.Location = new Point(448, 265);
-            pictureBoxGAProducto.Name = "pictureBoxGAProducto";
-            pictureBoxGAProducto.Size = new Size(175, 172);
-            pictureBoxGAProducto.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBoxGAProducto.TabIndex = 10;
-            pictureBoxGAProducto.TabStop = false;
-            // 
-            // listViewGAAlmacen
-            // 
-            listViewGAAlmacen.FullRowSelect = true;
-            listViewGAAlmacen.Location = new Point(6, 19);
-            listViewGAAlmacen.MultiSelect = false;
-            listViewGAAlmacen.Name = "listViewGAAlmacen";
-            listViewGAAlmacen.Size = new Size(437, 421);
-            listViewGAAlmacen.TabIndex = 9;
-            listViewGAAlmacen.UseCompatibleStateImageBehavior = false;
-            listViewGAAlmacen.SelectedIndexChanged += listViewGAAlmacen_SelectedIndexChanged;
-            // 
-            // btnGAEliminar
-            // 
-            btnGAEliminar.Enabled = false;
-            btnGAEliminar.Location = new Point(448, 207);
-            btnGAEliminar.Name = "btnGAEliminar";
-            btnGAEliminar.Size = new Size(175, 23);
-            btnGAEliminar.TabIndex = 8;
-            btnGAEliminar.Text = "Eliminar";
-            btnGAEliminar.UseVisualStyleBackColor = true;
-            btnGAEliminar.Click += btnGAEliminar_Click;
-            // 
-            // btnGAAddModify
-            // 
-            btnGAAddModify.Location = new Point(448, 173);
-            btnGAAddModify.Name = "btnGAAddModify";
-            btnGAAddModify.Size = new Size(175, 23);
-            btnGAAddModify.TabIndex = 6;
-            btnGAAddModify.Text = "Añadir";
-            btnGAAddModify.UseVisualStyleBackColor = true;
-            btnGAAddModify.Click += btnGAAddModify_Click;
-            // 
-            // textBoxGAPrecio
-            // 
-            textBoxGAPrecio.Location = new Point(548, 60);
-            textBoxGAPrecio.Name = "textBoxGAPrecio";
-            textBoxGAPrecio.PlaceholderText = "Precio";
-            textBoxGAPrecio.Size = new Size(75, 23);
-            textBoxGAPrecio.TabIndex = 5;
-            // 
-            // textBoxGACantidad
-            // 
-            textBoxGACantidad.Location = new Point(448, 60);
-            textBoxGACantidad.Name = "textBoxGACantidad";
-            textBoxGACantidad.PlaceholderText = "Cantidad";
-            textBoxGACantidad.Size = new Size(75, 23);
-            textBoxGACantidad.TabIndex = 4;
-            // 
-            // textBoxGAProducto
-            // 
-            textBoxGAProducto.Location = new Point(448, 19);
-            textBoxGAProducto.Name = "textBoxGAProducto";
-            textBoxGAProducto.PlaceholderText = "Producto";
-            textBoxGAProducto.Size = new Size(175, 23);
-            textBoxGAProducto.TabIndex = 3;
             // 
             // groupBoxReservas
             // 
@@ -594,6 +480,126 @@
             dataGridViewPedido.TabIndex = 0;
             dataGridViewPedido.SelectionChanged += dataGridViewPedido_SelectionChanged;
             // 
+            // groupBoxAlmacen
+            // 
+            groupBoxAlmacen.Controls.Add(comboBoxGACategoria);
+            groupBoxAlmacen.Controls.Add(btnGABuscarIMG);
+            groupBoxAlmacen.Controls.Add(btnGASubirLocal);
+            groupBoxAlmacen.Controls.Add(pictureBoxGAProducto);
+            groupBoxAlmacen.Controls.Add(listViewGAAlmacen);
+            groupBoxAlmacen.Controls.Add(btnGAEliminar);
+            groupBoxAlmacen.Controls.Add(btnGAAddModify);
+            groupBoxAlmacen.Controls.Add(textBoxGAPrecio);
+            groupBoxAlmacen.Controls.Add(textBoxGACantidad);
+            groupBoxAlmacen.Controls.Add(textBoxGAProducto);
+            groupBoxAlmacen.Location = new Point(0, 0);
+            groupBoxAlmacen.Name = "groupBoxAlmacen";
+            groupBoxAlmacen.Size = new Size(638, 446);
+            groupBoxAlmacen.TabIndex = 0;
+            groupBoxAlmacen.TabStop = false;
+            groupBoxAlmacen.Text = "Almacen";
+            groupBoxAlmacen.Visible = false;
+            // 
+            // comboBoxGACategoria
+            // 
+            comboBoxGACategoria.FormattingEnabled = true;
+            comboBoxGACategoria.Location = new Point(448, 100);
+            comboBoxGACategoria.Name = "comboBoxGACategoria";
+            comboBoxGACategoria.Size = new Size(174, 23);
+            comboBoxGACategoria.TabIndex = 13;
+            comboBoxGACategoria.SelectedIndexChanged += comboBoxGACategoria_SelectedIndexChanged;
+            // 
+            // btnGABuscarIMG
+            // 
+            btnGABuscarIMG.BackgroundImage = Properties.Resources.buscar;
+            btnGABuscarIMG.BackgroundImageLayout = ImageLayout.Zoom;
+            btnGABuscarIMG.FlatAppearance.BorderSize = 0;
+            btnGABuscarIMG.FlatStyle = FlatStyle.Flat;
+            btnGABuscarIMG.Location = new Point(548, 129);
+            btnGABuscarIMG.Name = "btnGABuscarIMG";
+            btnGABuscarIMG.Size = new Size(75, 32);
+            btnGABuscarIMG.TabIndex = 12;
+            btnGABuscarIMG.UseVisualStyleBackColor = true;
+            btnGABuscarIMG.Click += btnGABuscarIMG_Click;
+            // 
+            // btnGASubirLocal
+            // 
+            btnGASubirLocal.BackgroundImage = Properties.Resources.subir;
+            btnGASubirLocal.BackgroundImageLayout = ImageLayout.Zoom;
+            btnGASubirLocal.FlatAppearance.BorderSize = 0;
+            btnGASubirLocal.FlatStyle = FlatStyle.Flat;
+            btnGASubirLocal.Location = new Point(448, 129);
+            btnGASubirLocal.Name = "btnGASubirLocal";
+            btnGASubirLocal.Size = new Size(75, 32);
+            btnGASubirLocal.TabIndex = 11;
+            btnGASubirLocal.UseVisualStyleBackColor = true;
+            btnGASubirLocal.Click += btnGASubirLocal_Click;
+            // 
+            // pictureBoxGAProducto
+            // 
+            pictureBoxGAProducto.Location = new Point(448, 265);
+            pictureBoxGAProducto.Name = "pictureBoxGAProducto";
+            pictureBoxGAProducto.Size = new Size(175, 172);
+            pictureBoxGAProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxGAProducto.TabIndex = 10;
+            pictureBoxGAProducto.TabStop = false;
+            // 
+            // listViewGAAlmacen
+            // 
+            listViewGAAlmacen.FullRowSelect = true;
+            listViewGAAlmacen.Location = new Point(6, 19);
+            listViewGAAlmacen.MultiSelect = false;
+            listViewGAAlmacen.Name = "listViewGAAlmacen";
+            listViewGAAlmacen.Size = new Size(437, 421);
+            listViewGAAlmacen.TabIndex = 9;
+            listViewGAAlmacen.UseCompatibleStateImageBehavior = false;
+            listViewGAAlmacen.SelectedIndexChanged += listViewGAAlmacen_SelectedIndexChanged;
+            // 
+            // btnGAEliminar
+            // 
+            btnGAEliminar.Enabled = false;
+            btnGAEliminar.Location = new Point(448, 207);
+            btnGAEliminar.Name = "btnGAEliminar";
+            btnGAEliminar.Size = new Size(175, 23);
+            btnGAEliminar.TabIndex = 8;
+            btnGAEliminar.Text = "Eliminar";
+            btnGAEliminar.UseVisualStyleBackColor = true;
+            btnGAEliminar.Click += btnGAEliminar_Click;
+            // 
+            // btnGAAddModify
+            // 
+            btnGAAddModify.Location = new Point(448, 173);
+            btnGAAddModify.Name = "btnGAAddModify";
+            btnGAAddModify.Size = new Size(175, 23);
+            btnGAAddModify.TabIndex = 6;
+            btnGAAddModify.Text = "Añadir";
+            btnGAAddModify.UseVisualStyleBackColor = true;
+            btnGAAddModify.Click += btnGAAddModify_Click;
+            // 
+            // textBoxGAPrecio
+            // 
+            textBoxGAPrecio.Location = new Point(548, 60);
+            textBoxGAPrecio.Name = "textBoxGAPrecio";
+            textBoxGAPrecio.PlaceholderText = "Precio";
+            textBoxGAPrecio.Size = new Size(75, 23);
+            textBoxGAPrecio.TabIndex = 5;
+            // 
+            // textBoxGACantidad
+            // 
+            textBoxGACantidad.Location = new Point(448, 60);
+            textBoxGACantidad.Name = "textBoxGACantidad";
+            textBoxGACantidad.PlaceholderText = "Cantidad";
+            textBoxGACantidad.Size = new Size(75, 23);
+            textBoxGACantidad.TabIndex = 4;
+            // 
+            // textBoxGAProducto
+            // 
+            textBoxGAProducto.Location = new Point(448, 19);
+            textBoxGAProducto.Name = "textBoxGAProducto";
+            textBoxGAProducto.PlaceholderText = "Producto";
+            textBoxGAProducto.Size = new Size(175, 23);
+            textBoxGAProducto.TabIndex = 3;
+            // 
             // groupBoxUsuarios
             // 
             groupBoxUsuarios.Controls.Add(textBoxGUNombre);
@@ -684,9 +690,6 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            groupBoxAlmacen.ResumeLayout(false);
-            groupBoxAlmacen.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxReservas.ResumeLayout(false);
             groupBoxReservas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -694,6 +697,9 @@
             groupBoxPedido.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).EndInit();
+            groupBoxAlmacen.ResumeLayout(false);
+            groupBoxAlmacen.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();
             groupBoxUsuarios.ResumeLayout(false);
             groupBoxUsuarios.PerformLayout();
             ResumeLayout(false);

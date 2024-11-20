@@ -183,7 +183,23 @@ namespace TrabajoFinalTPV_Eva1
                 using (OleDbCommand command = new OleDbCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Producto", producto);
-                    int stock = (int)command.ExecuteScalar();
+                    object result = command.ExecuteScalar();
+                    if (result == null)
+                    {
+                        // El producto ya no existe, eliminarlo del pedido
+                        foreach (DataGridViewRow row in dataGridViewPedido.Rows)
+                        {
+                            var cell = row.Cells["Producto"];
+                            if (cell != null && cell.Value != null && cell.Value.ToString() == producto)
+                            {
+                                dataGridViewPedido.Rows.Remove(row);
+                                actualizarPrecioTotal();
+                                break;
+                            }
+                        }
+                        return false;
+                    }
+                    int stock = (int)result;
                     return cantidad <= stock;
                 }
             }

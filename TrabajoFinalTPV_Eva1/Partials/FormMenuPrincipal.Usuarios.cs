@@ -64,14 +64,26 @@ namespace TrabajoFinalTPV_Eva1
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "DELETE FROM Usuarios WHERE Usuario = ?";
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    string queryDeleteReservas = "DELETE FROM Reservas WHERE Usuario = ?";
+                    using (OleDbCommand command = new OleDbCommand(queryDeleteReservas, connection))
+                    {
+                        command.Parameters.AddWithValue("@Usuario", userSeleccionado);
+                        command.ExecuteNonQuery();
+                    }
+
+                    string queryDeleteUsuario = "DELETE FROM Usuarios WHERE Usuario = ?";
+                    using (OleDbCommand command = new OleDbCommand(queryDeleteUsuario, connection))
                     {
                         command.Parameters.AddWithValue("@Usuario", userSeleccionado);
                         command.ExecuteNonQuery();
                     }
                 }
+                MessageBox.Show("Usuario eliminado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cargarUsuarios();
+                textBoxGUNombre.Text = string.Empty;
+                checkBoxGUAdmin.Checked = false;
+                textBoxGUPass.Text = string.Empty;
+                btnGUAddModify.Text = "Añadir";
             }
             btnGUEliminar.Enabled = false;
         }

@@ -66,7 +66,7 @@ namespace TrabajoFinalTPV_Eva1
                             ListViewItem item = new ListViewItem(reader["Producto"].ToString());
                             item.SubItems.Add(reader["Categoria"].ToString());
                             item.SubItems.Add(reader["Cantidad"].ToString());
-                            item.SubItems.Add(reader["Precio"].ToString());
+                            item.SubItems.Add(reader["Precio"].ToString() + "€");
                             listViewGAAlmacen.Items.Add(item);
                         }
                     }
@@ -114,12 +114,37 @@ namespace TrabajoFinalTPV_Eva1
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
+                    string queryImgPath = "SELECT imgPath FROM Almacen WHERE Producto = ?";
+                    string imgPath = null;
+                    using (OleDbCommand commandImgPath = new OleDbCommand(queryImgPath, connection))
+                    {
+                        commandImgPath.Parameters.AddWithValue("@Producto", productoSeleccionado);
+                        using (OleDbDataReader reader = commandImgPath.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                imgPath = reader["imgPath"].ToString();
+                            }
+                        }
+                    }
+
                     string query = "DELETE FROM Almacen WHERE Producto = ?";
                     using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Producto", productoSeleccionado);
                         command.ExecuteNonQuery();
                     }
+
+                    if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
+                    {
+                        if (pictureBoxGAProducto.Image != null)
+                        {
+                            pictureBoxGAProducto.Image.Dispose();
+                            pictureBoxGAProducto.Image = null;
+                        }
+                        File.Delete(imgPath);
+                    }
+
                     MessageBox.Show("Producto eliminado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     productoSeleccionado = null;
                     textBoxGACantidad.Text = string.Empty;
@@ -158,7 +183,7 @@ namespace TrabajoFinalTPV_Eva1
 
                     if (count > 0)
                     {
-                        // Producto ya existe, actualizar
+                        // Si el Producto ya existe, actualizarlo
                         string queryUpdate = "UPDATE Almacen SET Categoria = ?, Cantidad = ?, Precio = ?, imgPath = ? WHERE Producto = ?";
                         using (OleDbCommand commandUpdate = new OleDbCommand(queryUpdate, connection))
                         {
@@ -255,8 +280,7 @@ namespace TrabajoFinalTPV_Eva1
         {
             try
             {
-
-                pictureBoxGAProducto.Image = Image.FromFile("../../../../assets/loading.gif");
+                pictureBoxGAProducto.Image = Image.FromFile("../../../../assets/img/loading.gif");
                 string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string envFilePath = Path.Combine(projectDirectory, "../../../../.env");
                 DotNetEnv.Env.Load(envFilePath);
@@ -322,6 +346,11 @@ namespace TrabajoFinalTPV_Eva1
                                         {
                                             pictureBoxGAProducto.Image.Dispose();
                                             pictureBoxGAProducto.Image = null;
+                                        }
+                                        string imagePath = Path.Combine(projectDirectory, "../../../../assets/ProductosIMG", $"{query}.jpg");
+                                        if (File.Exists(imagePath))
+                                        {
+                                            File.Delete(imagePath);
                                         }
                                         throw new Exception("No se pudo descargar la imagen");
                                     }

@@ -53,10 +53,10 @@ namespace TrabajoFinalTPV_Eva1
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT Mesa, Usuario FROM Reservas WHERE Fecha >= @FechaActual AND Tipo = @Tipo";
+                string query = "SELECT Mesa, Usuario FROM Reservas WHERE Fecha = @Fecha AND Tipo = @Tipo";
                 using (OleDbCommand command = new OleDbCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@FechaActual", DateTime.Now.Date);
+                    command.Parameters.AddWithValue("@Fecha", dateTimePickerReservas.Value.Date);
                     command.Parameters.AddWithValue("@Tipo", comboBoxTipoReservas.SelectedItem.ToString());
                     using (OleDbDataReader reader = command.ExecuteReader())
                     {
