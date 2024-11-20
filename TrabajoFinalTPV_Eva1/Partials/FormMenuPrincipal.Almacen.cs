@@ -7,6 +7,36 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
+        private void cargarCategorias()
+        {
+            // Suponiendo que tienes un método para obtener las categorías
+            List<string> categorias = ObtenerCategorias();
+
+            comboBoxGACategoria.Items.Clear();
+            foreach (var categoria in categorias)
+            {
+                comboBoxGACategoria.Items.Add(categoria);
+            }
+            comboBoxGACategoria.Items.Add("Nueva categoria");
+        }
+
+        private void comboBoxGACategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxGACategoria.SelectedItem != null && comboBoxGACategoria.SelectedItem.ToString() == "Nueva categoria")
+            {
+                string nuevaCategoria = Microsoft.VisualBasic.Interaction.InputBox("Introduce el nombre de la nueva categoría", "Nueva categoría", "");
+                if (string.IsNullOrEmpty(nuevaCategoria))
+                {
+                    comboBoxGACategoria.SelectedIndex = -1;
+                }
+                else
+                {
+                    comboBoxGACategoria.Items.Insert(comboBoxGACategoria.Items.Count - 1, nuevaCategoria);
+                    comboBoxGACategoria.SelectedIndex = comboBoxGACategoria.Items.Count - 2;
+                }
+            }
+        }
+
 
         private void cargarAlmacen()
         {
@@ -18,6 +48,8 @@ namespace TrabajoFinalTPV_Eva1
             listViewGAAlmacen.Columns.Add("Cantidad", 70);
             listViewGAAlmacen.Columns.Add("Precio", 50);
             productoSeleccionado = null;
+            comboBoxGACategoria.SelectedItem = null;
+            cargarCategorias();
 
             // Conectar a la base de datos de Access
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
@@ -50,7 +82,7 @@ namespace TrabajoFinalTPV_Eva1
                 productoSeleccionado = selectedItem.SubItems[0].Text;
                 btnGAAddModify.Text = "Modificar";
                 textBoxGAProducto.Text = selectedItem.SubItems[0].Text;
-                textBoxGACategoria.Text = selectedItem.SubItems[1].Text;
+                comboBoxGACategoria.SelectedIndex = comboBoxGACategoria.FindStringExact(selectedItem.SubItems[1].Text);
                 textBoxGACantidad.Text = selectedItem.SubItems[2].Text;
                 textBoxGAPrecio.Text = selectedItem.SubItems[3].Text;
                 btnGAEliminar.Enabled = true;
@@ -58,10 +90,11 @@ namespace TrabajoFinalTPV_Eva1
             }
             else
             {
+                productoIMGPath = null;
                 productoSeleccionado = null;
                 btnGAAddModify.Text = "Añadir";
                 textBoxGAProducto.Text = string.Empty;
-                textBoxGACategoria.Text = string.Empty;
+                comboBoxGACategoria.SelectedIndex = -1;
                 textBoxGACantidad.Text = string.Empty;
                 textBoxGAPrecio.Text = string.Empty;
                 btnGAEliminar.Enabled = false;
@@ -87,7 +120,18 @@ namespace TrabajoFinalTPV_Eva1
                         command.Parameters.AddWithValue("@Producto", productoSeleccionado);
                         command.ExecuteNonQuery();
                     }
+                    MessageBox.Show("Producto eliminado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     productoSeleccionado = null;
+                    textBoxGACantidad.Text = string.Empty;
+                    textBoxGAProducto.Text = string.Empty;
+                    textBoxGAPrecio.Text = string.Empty;
+                    comboBoxGACategoria.SelectedIndex = -1;
+                    if (pictureBoxGAProducto.Image != null)
+                    {
+                        pictureBoxGAProducto.Image.Dispose();
+                        pictureBoxGAProducto.Image = null;
+                    }
+                    btnGAAddModify.Text = "Añadir";
                 }
                 cargarAlmacen();
             }
@@ -96,61 +140,61 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnGAAddModify_Click(object sender, EventArgs e)
         {
-            if (productoSeleccionado != null)
+            if (string.IsNullOrEmpty(textBoxGAProducto.Text) || comboBoxGACategoria.SelectedIndex == -1 || string.IsNullOrEmpty(textBoxGACantidad.Text) || string.IsNullOrEmpty(textBoxGAPrecio.Text) || !int.TryParse(textBoxGACantidad.Text, out _) || !decimal.TryParse(textBoxGAPrecio.Text, out _))
             {
-                if (string.IsNullOrEmpty(textBoxGAProducto.Text) || string.IsNullOrEmpty(textBoxGACategoria.Text) || string.IsNullOrEmpty(textBoxGACantidad.Text) || string.IsNullOrEmpty(textBoxGAPrecio.Text) || !int.TryParse(textBoxGACantidad.Text, out _) || !decimal.TryParse(textBoxGAPrecio.Text, out _))
+                MessageBox.Show("Rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                string queryCheck = "SELECT COUNT(*) FROM Almacen WHERE Producto = ?";
+                using (OleDbCommand commandCheck = new OleDbCommand(queryCheck, connection))
                 {
-                    MessageBox.Show("Rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
-                using (OleDbConnection connection = new OleDbConnection(connectionString))
-                {
-                    connection.Open();
-                    string query = "UPDATE Almacen SET Producto = ?, Categoria = ?, Cantidad = ?, Precio = ?, imgPath = ? WHERE Producto = ?";
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    commandCheck.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
+                    int count = (int)commandCheck.ExecuteScalar();
+
+                    if (count > 0)
                     {
-                        command.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
-                        command.Parameters.AddWithValue("@Categoria", textBoxGACategoria.Text);
-                        command.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
-                        command.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
-                        command.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Producto", productoSeleccionado);
-                        command.ExecuteNonQuery();
+                        // Producto ya existe, actualizar
+                        string queryUpdate = "UPDATE Almacen SET Categoria = ?, Cantidad = ?, Precio = ?, imgPath = ? WHERE Producto = ?";
+                        using (OleDbCommand commandUpdate = new OleDbCommand(queryUpdate, connection))
+                        {
+                            commandUpdate.Parameters.AddWithValue("@Categoria", comboBoxGACategoria.SelectedItem.ToString());
+                            commandUpdate.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
+                            commandUpdate.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                            commandUpdate.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
+                            commandUpdate.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
+                            commandUpdate.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Producto actualizado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    MessageBox.Show("Producto modificado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        // Producto no existe, insertar
+                        string queryInsert = "INSERT INTO Almacen (Producto, Categoria, Cantidad, Precio, imgPath) VALUES (?, ?, ?, ?, ?)";
+                        using (OleDbCommand commandInsert = new OleDbCommand(queryInsert, connection))
+                        {
+                            commandInsert.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
+                            commandInsert.Parameters.AddWithValue("@Categoria", comboBoxGACategoria.SelectedItem.ToString());
+                            commandInsert.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
+                            commandInsert.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                            commandInsert.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
+                            commandInsert.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Producto añadido correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
-            else
-            {
-                if (string.IsNullOrEmpty(textBoxGAProducto.Text) || string.IsNullOrEmpty(textBoxGACategoria.Text) || string.IsNullOrEmpty(textBoxGACantidad.Text) || string.IsNullOrEmpty(textBoxGAPrecio.Text) || !int.TryParse(textBoxGACantidad.Text, out _) || !decimal.TryParse(textBoxGAPrecio.Text, out _))
-                {
-                    MessageBox.Show("Rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
-                using (OleDbConnection connection = new OleDbConnection(connectionString))
-                {
-                    connection.Open();
-                    string query = "INSERT INTO Almacen (Producto, Categoria, Cantidad, Precio, imgPath) VALUES (?, ?, ?, ?, ?)";
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
-                        command.Parameters.AddWithValue("@Categoria", textBoxGACategoria.Text);
-                        command.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
-                        command.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
-                        command.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
-                        command.ExecuteNonQuery();
-                    }
-                    MessageBox.Show("Producto añadido correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
+
             cargarAlmacen();
             productoSeleccionado = null;
             textBoxGACantidad.Text = string.Empty;
             textBoxGAProducto.Text = string.Empty;
             textBoxGAPrecio.Text = string.Empty;
-            textBoxGACategoria.Text = string.Empty;
+            comboBoxGACategoria.SelectedIndex = -1;
             btnGAAddModify.Text = "Añadir";
             btnGAEliminar.Enabled = false;
             if (pictureBoxGAProducto.Image != null)
@@ -158,6 +202,7 @@ namespace TrabajoFinalTPV_Eva1
                 pictureBoxGAProducto.Image.Dispose();
                 pictureBoxGAProducto.Image = null;
             }
+            cargarCategorias();
         }
 
         private void btnGASubirLocal_Click(object sender, EventArgs e)
@@ -337,7 +382,7 @@ namespace TrabajoFinalTPV_Eva1
                                     pictureBox.Image.Dispose();
                                     pictureBox.Image = null;
                                 }
-
+                                productoIMGPath = imgPath;
                                 using (MemoryStream memoryStream = new MemoryStream(File.ReadAllBytes(Uri.UnescapeDataString(imgPath))))
                                 {
                                     pictureBox.Image = Image.FromStream(memoryStream);
@@ -355,6 +400,27 @@ namespace TrabajoFinalTPV_Eva1
                     }
                 }
             }
+        }
+        private List<string> ObtenerCategorias()
+        {
+            List<string> categorias = new List<string>();
+            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT DISTINCT Categoria FROM Almacen";
+                using (OleDbCommand command = new OleDbCommand(query, connection))
+                {
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            categorias.Add(reader["Categoria"].ToString());
+                        }
+                    }
+                }
+            }
+            return categorias;
         }
     }
 }

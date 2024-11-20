@@ -13,11 +13,13 @@ namespace TrabajoFinalTPV_Eva1
         private string? productoSeleccionado;
         private string? productoIMGPath;
         private string categoriaSeleccionada = null;
-        public FormMenuPrincipal(string userName, string userType)
+        private Form formLogin = null;
+        public FormMenuPrincipal(string userName, string userType, Form formLogin)
         {
             InitializeComponent();
             this.userType = userType;
             this.user = userName;
+            this.formLogin = formLogin;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
 
             groupBoxReservas.Visible = true;
@@ -108,6 +110,12 @@ namespace TrabajoFinalTPV_Eva1
             form1.Show();
         }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            formLogin.Close();
+            this.Close();
+        }
 
+        
     }
 }

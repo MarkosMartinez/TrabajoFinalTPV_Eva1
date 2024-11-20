@@ -34,12 +34,11 @@ namespace TrabajoFinalTPV_Eva1
         {
             string user = textBoxUser.Text;
             string pass = HashPassword(textBoxPass.Text);
-            Clipboard.SetText(pass);
             var (isValid, tipo) = ValidateUser(user, pass);
 
             if (isValid)
             {
-                FormMenuPrincipal formMenuPrincipal = new FormMenuPrincipal(user, tipo);
+                FormMenuPrincipal formMenuPrincipal = new FormMenuPrincipal(user, tipo, this);
                 formMenuPrincipal.Show();
                 this.Hide();
             }
