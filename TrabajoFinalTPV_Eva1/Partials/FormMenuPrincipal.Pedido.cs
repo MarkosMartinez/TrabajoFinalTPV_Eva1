@@ -161,6 +161,7 @@ namespace TrabajoFinalTPV_Eva1
             if (dataGridViewPedido.SelectedRows.Count == 1 && dataGridViewPedido.SelectedRows[0].Cells["Producto"].Value != null)
             {
                 productoSeleccionado = dataGridViewPedido.SelectedRows[0].Cells["Producto"].Value.ToString();
+                cargarImagen(dataGridViewPedido.SelectedRows[0].Cells["Producto"].Value.ToString(), pictureBoxPreviewProducto);
                 textBoxPCantidad.Text = dataGridViewPedido.SelectedRows[0].Cells["Cantidad"].Value.ToString();
                 textBoxPCantidad.Visible = true;
                 buttonModPCantidad.Visible = true;
@@ -243,6 +244,7 @@ namespace TrabajoFinalTPV_Eva1
                     {
                         dataGridViewPedido.Rows.Remove(row);
                         productoSeleccionado = null;
+                        dataGridViewPedido.ClearSelection();
                         break;
                     }
                 }

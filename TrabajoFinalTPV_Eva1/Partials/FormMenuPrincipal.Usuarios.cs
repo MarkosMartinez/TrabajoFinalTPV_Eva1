@@ -4,7 +4,10 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
-
+        private void btnUInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Escribe los datos del usuario y pulsa en el botón de añadir para crearlo.\n\nPara editarlo pulsalo y cambia los datos que quieras.\nSi el campo de la contraseña esta vacia a la hora de editarlo, se mantendra la anterior", "Información de usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void cargarUsuarios()
         {
             // Configurar el ListView
@@ -40,19 +43,19 @@ namespace TrabajoFinalTPV_Eva1
             {
                 var selectedItem = listViewGUUsuarios.SelectedItems[0];
                 userSeleccionado = selectedItem.SubItems[0].Text;
-                btnGUAddModify.Text = "Modificar";
+                btnGUAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.user_edit;
                 textBoxGUNombre.Text = selectedItem.SubItems[0].Text;
                 checkBoxGUAdmin.Checked = selectedItem.SubItems[1].Text == "admin";
-                btnGUEliminar.Enabled = true;
+                btnGUEliminar.Visible = true;
                 textBoxGUPass.Text = string.Empty;
             }
             else
             {
                 userSeleccionado = null;
-                btnGUAddModify.Text = "Añadir";
+                btnGUAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.user_plus;
                 textBoxGUNombre.Text = string.Empty;
                 checkBoxGUAdmin.Checked = false;
-                btnGUEliminar.Enabled = false;
+                btnGUEliminar.Visible = false;
             }
         }
 
@@ -83,9 +86,9 @@ namespace TrabajoFinalTPV_Eva1
                 textBoxGUNombre.Text = string.Empty;
                 checkBoxGUAdmin.Checked = false;
                 textBoxGUPass.Text = string.Empty;
-                btnGUAddModify.Text = "Añadir";
+                btnGUAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.user_plus;
             }
-            btnGUEliminar.Enabled = false;
+            btnGUEliminar.Visible = false;
         }
 
         private void btnGUAddModify_Click(object sender, EventArgs e)

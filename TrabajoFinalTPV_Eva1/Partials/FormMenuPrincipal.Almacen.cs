@@ -7,6 +7,10 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
+        private void btnAInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Para añadir un producto, rellene los campos y pulse el botón 'Añadir/Modificar'.\nPara modificar un producto, selecciónelo de la lista y modifique los campos necesarios, después pulse el botón 'Añadir/Modificar'.\nPara crear una nueva categoria, selecciona en 'Categorias' la opcion de 'Nueva', despues escriba el nuevo nombre y pulse en 'Aceptar'\nPara eliminar un producto, seleccione el producto de la lista y pulse el botón 'Eliminar'.\n\nPara buscar una imagen, introduzca el nombre del producto y pulse el botón 'Buscar' o subela desde tu equipo con el boton de 'Subir fichero'", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void cargarCategorias()
         {
             // Suponiendo que tienes un método para obtener las categorías
@@ -80,7 +84,7 @@ namespace TrabajoFinalTPV_Eva1
             {
                 var selectedItem = listViewGAAlmacen.SelectedItems[0];
                 productoSeleccionado = selectedItem.SubItems[0].Text;
-                btnGAAddModify.Text = "Modificar";
+                btnGAAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.archive_edit;
                 textBoxGAProducto.Text = selectedItem.SubItems[0].Text;
                 comboBoxGACategoria.SelectedIndex = comboBoxGACategoria.FindStringExact(selectedItem.SubItems[1].Text);
                 textBoxGACantidad.Text = selectedItem.SubItems[2].Text;
@@ -92,7 +96,7 @@ namespace TrabajoFinalTPV_Eva1
             {
                 productoIMGPath = null;
                 productoSeleccionado = null;
-                btnGAAddModify.Text = "Añadir";
+                btnGAAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.archive_plus;
                 textBoxGAProducto.Text = string.Empty;
                 comboBoxGACategoria.SelectedIndex = -1;
                 textBoxGACantidad.Text = string.Empty;
@@ -156,7 +160,7 @@ namespace TrabajoFinalTPV_Eva1
                         pictureBoxGAProducto.Image.Dispose();
                         pictureBoxGAProducto.Image = null;
                     }
-                    btnGAAddModify.Text = "Añadir";
+                    btnGAAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.archive_plus;
                 }
                 cargarAlmacen();
             }
@@ -220,7 +224,7 @@ namespace TrabajoFinalTPV_Eva1
             textBoxGAProducto.Text = string.Empty;
             textBoxGAPrecio.Text = string.Empty;
             comboBoxGACategoria.SelectedIndex = -1;
-            btnGAAddModify.Text = "Añadir";
+            btnGAAddModify.BackgroundImage = TrabajoFinalTPV_Eva1.Properties.Resources.archive_plus;
             btnGAEliminar.Enabled = false;
             if (pictureBoxGAProducto.Image != null)
             {

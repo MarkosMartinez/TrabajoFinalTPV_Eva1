@@ -116,6 +116,6 @@ namespace TrabajoFinalTPV_Eva1
             this.Close();
         }
 
-        
+
     }
 }

@@ -7,6 +7,11 @@ namespace TrabajoFinalTPV_Eva1
         Boolean listoPrincipio = false;
         List<string> mesasUsuario = new List<string>();
         List<string> mesasUsuarioOriginal = new List<string>();
+
+        private void btnRInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Para realizar una reserva, seleccione la fehca, el tipo, una mesa que este libre (verde) y pulsa en el botón de reservar.\n\nEl significado de los colores de las mesas son las siguientes:\nVerde: Disponible\nAmarillo: Seleccionado (sin reservar)\nAzules: tus reservas\nRojo: reservas de otros\n\nPuedes cancelar una reserva des-seleccionando tu mesa reservada y pulsando en el botón de editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void cargarReservas()
         {
             updateListaReservas();
