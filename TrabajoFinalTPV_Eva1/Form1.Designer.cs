@@ -32,38 +32,39 @@
             textBoxUser = new TextBox();
             textBoxPass = new TextBox();
             btnLogin = new Button();
+            buttonPassEye = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(344, 90);
+            label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(60, 25);
             label1.Name = "label1";
-            label1.Size = new Size(112, 21);
+            label1.Size = new Size(168, 30);
             label1.TabIndex = 0;
-            label1.Text = "Iniciar Sesión";
+            label1.Text = "Inicio de Sesión";
             // 
             // textBoxUser
             // 
-            textBoxUser.Location = new Point(344, 145);
+            textBoxUser.Location = new Point(62, 67);
             textBoxUser.Name = "textBoxUser";
             textBoxUser.PlaceholderText = "Nombre";
-            textBoxUser.Size = new Size(126, 23);
+            textBoxUser.Size = new Size(160, 23);
             textBoxUser.TabIndex = 1;
             // 
             // textBoxPass
             // 
-            textBoxPass.Location = new Point(344, 190);
+            textBoxPass.Location = new Point(62, 112);
             textBoxPass.Name = "textBoxPass";
             textBoxPass.PasswordChar = '*';
             textBoxPass.PlaceholderText = "Contraseña";
-            textBoxPass.Size = new Size(126, 23);
+            textBoxPass.Size = new Size(160, 23);
             textBoxPass.TabIndex = 2;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(344, 238);
+            btnLogin.Location = new Point(79, 158);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(126, 23);
             btnLogin.TabIndex = 3;
@@ -71,11 +72,25 @@
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
+            // buttonPassEye
+            // 
+            buttonPassEye.BackgroundImage = Properties.Resources.eye;
+            buttonPassEye.BackgroundImageLayout = ImageLayout.Zoom;
+            buttonPassEye.FlatAppearance.BorderSize = 0;
+            buttonPassEye.FlatStyle = FlatStyle.Flat;
+            buttonPassEye.Location = new Point(228, 107);
+            buttonPassEye.Name = "buttonPassEye";
+            buttonPassEye.Size = new Size(37, 32);
+            buttonPassEye.TabIndex = 4;
+            buttonPassEye.UseVisualStyleBackColor = true;
+            buttonPassEye.Click += buttonPassEye_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(284, 229);
+            Controls.Add(buttonPassEye);
             Controls.Add(btnLogin);
             Controls.Add(textBoxPass);
             Controls.Add(textBoxUser);
@@ -92,5 +107,6 @@
         private TextBox textBoxUser;
         private TextBox textBoxPass;
         private Button btnLogin;
+        private Button buttonPassEye;
     }
 }

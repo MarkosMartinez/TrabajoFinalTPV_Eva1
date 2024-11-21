@@ -10,7 +10,7 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnRInfo_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Para realizar una reserva, seleccione la fehca, el tipo, una mesa que este libre (verde) y pulsa en el botón de reservar.\n\nEl significado de los colores de las mesas son las siguientes:\nVerde: Disponible\nAmarillo: Seleccionado (sin reservar)\nAzules: tus reservas\nRojo: reservas de otros\n\nPuedes cancelar una reserva des-seleccionando tu mesa reservada y pulsando en el botón de editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Para realizar una reserva, seleccione la fecha, el tipo, una mesa que esté libre (verde) y pulse en el botón de reservar.\n\nEl significado de los colores de las mesas es el siguiente:\nVerde: Disponible\nAmarillo: Seleccionado (sin reservar)\nAzul: Tus reservas\nRojo: Reservas de otros\n\nPuedes cancelar una reserva des-seleccionando su mesa reservada y pulsando en el botón de editar o hacer click en la lista para ir a la fecha de la reserva.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void cargarReservas()
         {
@@ -24,7 +24,6 @@ namespace TrabajoFinalTPV_Eva1
             listViewReservas.Columns.Add("Fecha", 75);
             listViewReservas.Columns.Add("Tipo", 75);
             listViewReservas.Columns.Add("Mesa", 40);
-            //listViewReservas.Columns.Add("Nombre", 50);
 
             string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -42,7 +41,6 @@ namespace TrabajoFinalTPV_Eva1
                             ListViewItem item = new ListViewItem(Convert.ToDateTime(reader["Fecha"]).ToString("dd/MM/yyyy"));
                             item.SubItems.Add(reader["Tipo"].ToString());
                             item.SubItems.Add(reader["Mesa"].ToString());
-                            //item.SubItems.Add(reader["Usuario"].ToString());
                             listViewReservas.Items.Add(item);
                         }
                     }
@@ -113,11 +111,26 @@ namespace TrabajoFinalTPV_Eva1
         private void comboBoxTipoReservas_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listoPrincipio) cargarReservas();
+            listViewReservas.SelectedItems.Clear();
         }
 
         private void dateTimePickerReservas_ValueChanged(object sender, EventArgs e)
         {
             if (listoPrincipio) cargarReservas();
+            listViewReservas.SelectedItems.Clear();
+        }
+
+        private void listViewReservas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewReservas.SelectedItems.Count > 0)
+            {
+                var selectedItem = listViewReservas.SelectedItems[0];
+                if (selectedItem.SubItems.Count > 1)
+                {
+                    comboBoxTipoReservas.SelectedItem = selectedItem.SubItems[1].Text;
+                    dateTimePickerReservas.Value = DateTime.Parse(selectedItem.SubItems[0].Text);
+                }
+            }
         }
 
         private void btnMesa_Click(object sender, EventArgs e)

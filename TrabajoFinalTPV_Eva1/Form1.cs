@@ -102,5 +102,19 @@ namespace TrabajoFinalTPV_Eva1
             }
         }
 
+        private void buttonPassEye_Click(object sender, EventArgs e)
+        {
+            //Ocultara o mostrara la contraseña
+            if (textBoxPass.PasswordChar == '*')
+            {
+                textBoxPass.PasswordChar = '\0';
+                buttonPassEye.BackgroundImage = Properties.Resources.eye_closed;
+            }
+            else
+            {
+                textBoxPass.PasswordChar = '*';
+                buttonPassEye.BackgroundImage = Properties.Resources.eye;
+            }
+        }
     }
 }

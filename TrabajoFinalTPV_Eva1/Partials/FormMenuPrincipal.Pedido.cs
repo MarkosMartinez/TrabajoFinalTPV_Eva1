@@ -4,6 +4,10 @@ namespace TrabajoFinalTPV_Eva1
 {
     public partial class FormMenuPrincipal : Form
     {
+        private void btnPInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Seleccione la categoria del producto y pulse 'doble click' sobre el producto para añadirlo.\nSeleccionandolo puedes cambiar la cantidad o eliminarlo pulsando en la papelera\n\nUna vez el pedido este listo, genere el ticket pulsando en el botón de generar el ticket y guardandolo donde desee.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void cargarCategoriaProductosPedido()
         {
             if (pictureBoxPreviewProducto.Image != null)
