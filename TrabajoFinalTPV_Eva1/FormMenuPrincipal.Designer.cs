@@ -506,7 +506,7 @@
             comboBoxGACategoria.Location = new Point(448, 100);
             comboBoxGACategoria.Name = "comboBoxGACategoria";
             comboBoxGACategoria.Size = new Size(174, 23);
-            comboBoxGACategoria.TabIndex = 13;
+            comboBoxGACategoria.TabIndex = 6;
             comboBoxGACategoria.SelectedIndexChanged += comboBoxGACategoria_SelectedIndexChanged;
             // 
             // btnGABuscarIMG
@@ -571,7 +571,7 @@
             btnGAAddModify.Location = new Point(448, 173);
             btnGAAddModify.Name = "btnGAAddModify";
             btnGAAddModify.Size = new Size(175, 23);
-            btnGAAddModify.TabIndex = 6;
+            btnGAAddModify.TabIndex = 13;
             btnGAAddModify.Text = "Añadir";
             btnGAAddModify.UseVisualStyleBackColor = true;
             btnGAAddModify.Click += btnGAAddModify_Click;
