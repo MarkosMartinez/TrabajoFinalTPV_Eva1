@@ -35,18 +35,6 @@
             btnAlmacen = new Button();
             btnPedido = new Button();
             btnReservas = new Button();
-            groupBoxPedido = new GroupBox();
-            btnPInfo = new Button();
-            labelPTotal = new Label();
-            textBoxPTotal = new TextBox();
-            buttonPEliminarProducto = new Button();
-            buttonModPCantidad = new Button();
-            textBoxPCantidad = new TextBox();
-            pictureBoxPreviewProducto = new PictureBox();
-            buttonTicket = new Button();
-            listViewProductos = new ListView();
-            listViewCategorias = new ListView();
-            dataGridViewPedido = new DataGridView();
             groupBoxReservas = new GroupBox();
             labelTipo = new Label();
             labelFecha = new Label();
@@ -63,6 +51,18 @@
             btnMesa2 = new Button();
             btnMesa1 = new Button();
             pictureBoxBackground = new PictureBox();
+            groupBoxPedido = new GroupBox();
+            btnPInfo = new Button();
+            labelPTotal = new Label();
+            textBoxPTotal = new TextBox();
+            buttonPEliminarProducto = new Button();
+            buttonModPCantidad = new Button();
+            textBoxPCantidad = new TextBox();
+            pictureBoxPreviewProducto = new PictureBox();
+            buttonTicket = new Button();
+            listViewProductos = new ListView();
+            listViewCategorias = new ListView();
+            dataGridViewPedido = new DataGridView();
             groupBoxAlmacen = new GroupBox();
             comboBoxGACategoria = new ComboBox();
             btnAInfo = new Button();
@@ -89,11 +89,11 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            groupBoxReservas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxBackground).BeginInit();
             groupBoxPedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).BeginInit();
-            groupBoxReservas.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxBackground).BeginInit();
             groupBoxAlmacen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).BeginInit();
             groupBoxUsuarios.SuspendLayout();
@@ -116,8 +116,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
+            splitContainer1.Panel2.Controls.Add(groupBoxPedido);
             splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
             splitContainer1.Size = new Size(797, 449);
@@ -204,149 +204,6 @@
             btnReservas.TabIndex = 0;
             btnReservas.UseVisualStyleBackColor = true;
             btnReservas.Click += btnReservas_Click;
-            // 
-            // groupBoxPedido
-            // 
-            groupBoxPedido.Controls.Add(btnPInfo);
-            groupBoxPedido.Controls.Add(labelPTotal);
-            groupBoxPedido.Controls.Add(textBoxPTotal);
-            groupBoxPedido.Controls.Add(buttonPEliminarProducto);
-            groupBoxPedido.Controls.Add(buttonModPCantidad);
-            groupBoxPedido.Controls.Add(textBoxPCantidad);
-            groupBoxPedido.Controls.Add(pictureBoxPreviewProducto);
-            groupBoxPedido.Controls.Add(buttonTicket);
-            groupBoxPedido.Controls.Add(listViewProductos);
-            groupBoxPedido.Controls.Add(listViewCategorias);
-            groupBoxPedido.Controls.Add(dataGridViewPedido);
-            groupBoxPedido.Location = new Point(0, 0);
-            groupBoxPedido.Name = "groupBoxPedido";
-            groupBoxPedido.Size = new Size(638, 446);
-            groupBoxPedido.TabIndex = 0;
-            groupBoxPedido.TabStop = false;
-            groupBoxPedido.Text = "Pedidos";
-            groupBoxPedido.Visible = false;
-            // 
-            // btnPInfo
-            // 
-            btnPInfo.BackgroundImage = Properties.Resources.information;
-            btnPInfo.BackgroundImageLayout = ImageLayout.Zoom;
-            btnPInfo.FlatAppearance.BorderSize = 0;
-            btnPInfo.FlatStyle = FlatStyle.Flat;
-            btnPInfo.Location = new Point(595, 13);
-            btnPInfo.Name = "btnPInfo";
-            btnPInfo.Size = new Size(37, 29);
-            btnPInfo.TabIndex = 15;
-            btnPInfo.UseVisualStyleBackColor = true;
-            btnPInfo.Click += btnPInfo_Click;
-            // 
-            // labelPTotal
-            // 
-            labelPTotal.AutoSize = true;
-            labelPTotal.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPTotal.Location = new Point(511, 214);
-            labelPTotal.Name = "labelPTotal";
-            labelPTotal.Size = new Size(82, 17);
-            labelPTotal.TabIndex = 9;
-            labelPTotal.Text = "Precio final:";
-            // 
-            // textBoxPTotal
-            // 
-            textBoxPTotal.Location = new Point(511, 236);
-            textBoxPTotal.Name = "textBoxPTotal";
-            textBoxPTotal.ReadOnly = true;
-            textBoxPTotal.Size = new Size(114, 23);
-            textBoxPTotal.TabIndex = 8;
-            // 
-            // buttonPEliminarProducto
-            // 
-            buttonPEliminarProducto.BackgroundImage = Properties.Resources.delete;
-            buttonPEliminarProducto.BackgroundImageLayout = ImageLayout.Zoom;
-            buttonPEliminarProducto.FlatAppearance.BorderSize = 0;
-            buttonPEliminarProducto.FlatStyle = FlatStyle.Flat;
-            buttonPEliminarProducto.Location = new Point(585, 85);
-            buttonPEliminarProducto.Name = "buttonPEliminarProducto";
-            buttonPEliminarProducto.Size = new Size(45, 45);
-            buttonPEliminarProducto.TabIndex = 7;
-            buttonPEliminarProducto.UseVisualStyleBackColor = true;
-            buttonPEliminarProducto.Visible = false;
-            buttonPEliminarProducto.Click += buttonPEliminarProducto_Click;
-            // 
-            // buttonModPCantidad
-            // 
-            buttonModPCantidad.BackgroundImage = Properties.Resources.invoice_edit;
-            buttonModPCantidad.BackgroundImageLayout = ImageLayout.Zoom;
-            buttonModPCantidad.FlatAppearance.BorderSize = 0;
-            buttonModPCantidad.FlatStyle = FlatStyle.Flat;
-            buttonModPCantidad.Location = new Point(507, 85);
-            buttonModPCantidad.Name = "buttonModPCantidad";
-            buttonModPCantidad.Size = new Size(45, 45);
-            buttonModPCantidad.TabIndex = 6;
-            buttonModPCantidad.UseVisualStyleBackColor = true;
-            buttonModPCantidad.Visible = false;
-            buttonModPCantidad.Click += buttonModPCantidad_Click;
-            // 
-            // textBoxPCantidad
-            // 
-            textBoxPCantidad.Location = new Point(511, 52);
-            textBoxPCantidad.Name = "textBoxPCantidad";
-            textBoxPCantidad.Size = new Size(114, 23);
-            textBoxPCantidad.TabIndex = 5;
-            textBoxPCantidad.Visible = false;
-            // 
-            // pictureBoxPreviewProducto
-            // 
-            pictureBoxPreviewProducto.Location = new Point(496, 302);
-            pictureBoxPreviewProducto.Name = "pictureBoxPreviewProducto";
-            pictureBoxPreviewProducto.Size = new Size(145, 147);
-            pictureBoxPreviewProducto.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBoxPreviewProducto.TabIndex = 4;
-            pictureBoxPreviewProducto.TabStop = false;
-            // 
-            // buttonTicket
-            // 
-            buttonTicket.Enabled = false;
-            buttonTicket.Location = new Point(511, 273);
-            buttonTicket.Name = "buttonTicket";
-            buttonTicket.Size = new Size(112, 23);
-            buttonTicket.TabIndex = 3;
-            buttonTicket.Text = "Generar Ticket";
-            buttonTicket.UseVisualStyleBackColor = true;
-            buttonTicket.Click += buttonTicket_Click;
-            // 
-            // listViewProductos
-            // 
-            listViewProductos.FullRowSelect = true;
-            listViewProductos.Location = new Point(169, 302);
-            listViewProductos.MultiSelect = false;
-            listViewProductos.Name = "listViewProductos";
-            listViewProductos.Size = new Size(233, 144);
-            listViewProductos.TabIndex = 2;
-            listViewProductos.UseCompatibleStateImageBehavior = false;
-            listViewProductos.SelectedIndexChanged += listViewProductos_SelectedIndexChanged;
-            listViewProductos.DoubleClick += listViewProductos_DoubleClick;
-            // 
-            // listViewCategorias
-            // 
-            listViewCategorias.FullRowSelect = true;
-            listViewCategorias.Location = new Point(2, 302);
-            listViewCategorias.MultiSelect = false;
-            listViewCategorias.Name = "listViewCategorias";
-            listViewCategorias.Size = new Size(155, 144);
-            listViewCategorias.TabIndex = 1;
-            listViewCategorias.UseCompatibleStateImageBehavior = false;
-            listViewCategorias.SelectedIndexChanged += listViewCategorias_SelectedIndexChanged;
-            // 
-            // dataGridViewPedido
-            // 
-            dataGridViewPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewPedido.Location = new Point(2, 15);
-            dataGridViewPedido.MultiSelect = false;
-            dataGridViewPedido.Name = "dataGridViewPedido";
-            dataGridViewPedido.RowTemplate.ReadOnly = true;
-            dataGridViewPedido.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewPedido.Size = new Size(470, 285);
-            dataGridViewPedido.TabIndex = 0;
-            dataGridViewPedido.SelectionChanged += dataGridViewPedido_SelectionChanged;
             // 
             // groupBoxReservas
             // 
@@ -558,6 +415,149 @@
             pictureBoxBackground.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxBackground.TabIndex = 11;
             pictureBoxBackground.TabStop = false;
+            // 
+            // groupBoxPedido
+            // 
+            groupBoxPedido.Controls.Add(btnPInfo);
+            groupBoxPedido.Controls.Add(labelPTotal);
+            groupBoxPedido.Controls.Add(textBoxPTotal);
+            groupBoxPedido.Controls.Add(buttonPEliminarProducto);
+            groupBoxPedido.Controls.Add(buttonModPCantidad);
+            groupBoxPedido.Controls.Add(textBoxPCantidad);
+            groupBoxPedido.Controls.Add(pictureBoxPreviewProducto);
+            groupBoxPedido.Controls.Add(buttonTicket);
+            groupBoxPedido.Controls.Add(listViewProductos);
+            groupBoxPedido.Controls.Add(listViewCategorias);
+            groupBoxPedido.Controls.Add(dataGridViewPedido);
+            groupBoxPedido.Location = new Point(0, 0);
+            groupBoxPedido.Name = "groupBoxPedido";
+            groupBoxPedido.Size = new Size(638, 446);
+            groupBoxPedido.TabIndex = 0;
+            groupBoxPedido.TabStop = false;
+            groupBoxPedido.Text = "Pedidos";
+            groupBoxPedido.Visible = false;
+            // 
+            // btnPInfo
+            // 
+            btnPInfo.BackgroundImage = Properties.Resources.information;
+            btnPInfo.BackgroundImageLayout = ImageLayout.Zoom;
+            btnPInfo.FlatAppearance.BorderSize = 0;
+            btnPInfo.FlatStyle = FlatStyle.Flat;
+            btnPInfo.Location = new Point(595, 13);
+            btnPInfo.Name = "btnPInfo";
+            btnPInfo.Size = new Size(37, 29);
+            btnPInfo.TabIndex = 15;
+            btnPInfo.UseVisualStyleBackColor = true;
+            btnPInfo.Click += btnPInfo_Click;
+            // 
+            // labelPTotal
+            // 
+            labelPTotal.AutoSize = true;
+            labelPTotal.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPTotal.Location = new Point(511, 214);
+            labelPTotal.Name = "labelPTotal";
+            labelPTotal.Size = new Size(82, 17);
+            labelPTotal.TabIndex = 9;
+            labelPTotal.Text = "Precio final:";
+            // 
+            // textBoxPTotal
+            // 
+            textBoxPTotal.Location = new Point(511, 236);
+            textBoxPTotal.Name = "textBoxPTotal";
+            textBoxPTotal.ReadOnly = true;
+            textBoxPTotal.Size = new Size(114, 23);
+            textBoxPTotal.TabIndex = 8;
+            // 
+            // buttonPEliminarProducto
+            // 
+            buttonPEliminarProducto.BackgroundImage = Properties.Resources.delete;
+            buttonPEliminarProducto.BackgroundImageLayout = ImageLayout.Zoom;
+            buttonPEliminarProducto.FlatAppearance.BorderSize = 0;
+            buttonPEliminarProducto.FlatStyle = FlatStyle.Flat;
+            buttonPEliminarProducto.Location = new Point(585, 85);
+            buttonPEliminarProducto.Name = "buttonPEliminarProducto";
+            buttonPEliminarProducto.Size = new Size(45, 45);
+            buttonPEliminarProducto.TabIndex = 7;
+            buttonPEliminarProducto.UseVisualStyleBackColor = true;
+            buttonPEliminarProducto.Visible = false;
+            buttonPEliminarProducto.Click += buttonPEliminarProducto_Click;
+            // 
+            // buttonModPCantidad
+            // 
+            buttonModPCantidad.BackgroundImage = Properties.Resources.invoice_edit;
+            buttonModPCantidad.BackgroundImageLayout = ImageLayout.Zoom;
+            buttonModPCantidad.FlatAppearance.BorderSize = 0;
+            buttonModPCantidad.FlatStyle = FlatStyle.Flat;
+            buttonModPCantidad.Location = new Point(507, 85);
+            buttonModPCantidad.Name = "buttonModPCantidad";
+            buttonModPCantidad.Size = new Size(45, 45);
+            buttonModPCantidad.TabIndex = 6;
+            buttonModPCantidad.UseVisualStyleBackColor = true;
+            buttonModPCantidad.Visible = false;
+            buttonModPCantidad.Click += buttonModPCantidad_Click;
+            // 
+            // textBoxPCantidad
+            // 
+            textBoxPCantidad.Location = new Point(511, 52);
+            textBoxPCantidad.Name = "textBoxPCantidad";
+            textBoxPCantidad.Size = new Size(114, 23);
+            textBoxPCantidad.TabIndex = 5;
+            textBoxPCantidad.Visible = false;
+            // 
+            // pictureBoxPreviewProducto
+            // 
+            pictureBoxPreviewProducto.Location = new Point(496, 302);
+            pictureBoxPreviewProducto.Name = "pictureBoxPreviewProducto";
+            pictureBoxPreviewProducto.Size = new Size(145, 147);
+            pictureBoxPreviewProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxPreviewProducto.TabIndex = 4;
+            pictureBoxPreviewProducto.TabStop = false;
+            // 
+            // buttonTicket
+            // 
+            buttonTicket.Enabled = false;
+            buttonTicket.Location = new Point(511, 273);
+            buttonTicket.Name = "buttonTicket";
+            buttonTicket.Size = new Size(112, 23);
+            buttonTicket.TabIndex = 3;
+            buttonTicket.Text = "Generar Ticket";
+            buttonTicket.UseVisualStyleBackColor = true;
+            buttonTicket.Click += buttonTicket_Click;
+            // 
+            // listViewProductos
+            // 
+            listViewProductos.FullRowSelect = true;
+            listViewProductos.Location = new Point(169, 302);
+            listViewProductos.MultiSelect = false;
+            listViewProductos.Name = "listViewProductos";
+            listViewProductos.Size = new Size(233, 144);
+            listViewProductos.TabIndex = 2;
+            listViewProductos.UseCompatibleStateImageBehavior = false;
+            listViewProductos.SelectedIndexChanged += listViewProductos_SelectedIndexChanged;
+            listViewProductos.DoubleClick += listViewProductos_DoubleClick;
+            // 
+            // listViewCategorias
+            // 
+            listViewCategorias.FullRowSelect = true;
+            listViewCategorias.Location = new Point(2, 302);
+            listViewCategorias.MultiSelect = false;
+            listViewCategorias.Name = "listViewCategorias";
+            listViewCategorias.Size = new Size(155, 144);
+            listViewCategorias.TabIndex = 1;
+            listViewCategorias.UseCompatibleStateImageBehavior = false;
+            listViewCategorias.SelectedIndexChanged += listViewCategorias_SelectedIndexChanged;
+            // 
+            // dataGridViewPedido
+            // 
+            dataGridViewPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewPedido.Location = new Point(2, 15);
+            dataGridViewPedido.MultiSelect = false;
+            dataGridViewPedido.Name = "dataGridViewPedido";
+            dataGridViewPedido.RowTemplate.ReadOnly = true;
+            dataGridViewPedido.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewPedido.Size = new Size(470, 285);
+            dataGridViewPedido.TabIndex = 0;
+            dataGridViewPedido.SelectionChanged += dataGridViewPedido_SelectionChanged;
             // 
             // groupBoxAlmacen
             // 
@@ -773,7 +773,6 @@
             // 
             btnGUEliminar.BackgroundImage = Properties.Resources.delete;
             btnGUEliminar.BackgroundImageLayout = ImageLayout.Zoom;
-            btnGUEliminar.Enabled = false;
             btnGUEliminar.FlatAppearance.BorderSize = 0;
             btnGUEliminar.FlatStyle = FlatStyle.Flat;
             btnGUEliminar.Location = new Point(597, 163);
@@ -810,13 +809,13 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            groupBoxReservas.ResumeLayout(false);
+            groupBoxReservas.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxBackground).EndInit();
             groupBoxPedido.ResumeLayout(false);
             groupBoxPedido.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviewProducto).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedido).EndInit();
-            groupBoxReservas.ResumeLayout(false);
-            groupBoxReservas.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxBackground).EndInit();
             groupBoxAlmacen.ResumeLayout(false);
             groupBoxAlmacen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxGAProducto).EndInit();

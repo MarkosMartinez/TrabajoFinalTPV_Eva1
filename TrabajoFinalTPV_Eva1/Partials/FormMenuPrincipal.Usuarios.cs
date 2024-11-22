@@ -6,7 +6,7 @@ namespace TrabajoFinalTPV_Eva1
     {
         private void btnUInfo_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Escribe los datos del usuario y pulsa en el botón de añadir para crearlo.\n\nPara editarlo pulsalo y cambia los datos que quieras.\nSi el campo de la contraseña esta vacia a la hora de editarlo, se mantendra la anterior", "Información de usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Escribe los datos del usuario y pulsa en el botón de añadir para crearlo.\n\nPara editarlo seleccionalo y cambia los datos que quieras.\nSi el campo de la contraseña esta vacia a la hora de editarlo, se mantendra la anterior sino se sobreescribira", "Información de usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void cargarUsuarios()
         {
@@ -17,7 +17,6 @@ namespace TrabajoFinalTPV_Eva1
             listViewGUUsuarios.Columns.Add("Tipo", 50);
 
             // Conectar a la base de datos de Access
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -63,7 +62,6 @@ namespace TrabajoFinalTPV_Eva1
         {
             if (userSeleccionado != null)
             {
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
@@ -100,7 +98,6 @@ namespace TrabajoFinalTPV_Eva1
                     MessageBox.Show("Por favor, rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
@@ -128,6 +125,9 @@ namespace TrabajoFinalTPV_Eva1
                         command.ExecuteNonQuery();
                         MessageBox.Show("Usuario modificado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                    textBoxGUNombre.Text = string.Empty;
+                    textBoxGUPass.Text = string.Empty;
+                    checkBoxGUAdmin.Checked = false;
                 }
             }
             else
@@ -137,10 +137,24 @@ namespace TrabajoFinalTPV_Eva1
                     MessageBox.Show("Por favor, rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
+
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
+
+                    string queryCheckUser = "SELECT COUNT(*) FROM Usuarios WHERE Usuario = ?";
+                    using (OleDbCommand checkCommand = new OleDbCommand(queryCheckUser, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@Usuario", textBoxGUNombre.Text);
+                        int userCount = (int)checkCommand.ExecuteScalar();
+
+                        if (userCount > 0)
+                        {
+                            MessageBox.Show("El usuario ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
                     string query = "INSERT INTO Usuarios (Usuario, Contraseña, Tipo) VALUES (?, ?, ?)";
                     using (OleDbCommand command = new OleDbCommand(query, connection))
                     {
@@ -149,6 +163,7 @@ namespace TrabajoFinalTPV_Eva1
                         command.Parameters.AddWithValue("@Tipo", checkBoxGUAdmin.Checked ? "admin" : "user");
                         command.ExecuteNonQuery();
                     }
+
                     MessageBox.Show("Usuario añadido correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     textBoxGUNombre.Text = string.Empty;
                     textBoxGUPass.Text = string.Empty;

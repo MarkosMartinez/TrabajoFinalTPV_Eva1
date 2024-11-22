@@ -25,11 +25,10 @@ namespace TrabajoFinalTPV_Eva1
             listViewReservas.Columns.Add("Tipo", 75);
             listViewReservas.Columns.Add("Mesa", 40);
 
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT Fecha, Tipo, Mesa, Usuario FROM Reservas WHERE Fecha >= @FechaActual AND Usuario = @User";
+                string query = "SELECT Fecha, Tipo, Mesa, Usuario FROM Reservas WHERE Fecha >= @FechaActual AND Usuario = @User ORDER BY Fecha";
                 using (OleDbCommand command = new OleDbCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@FechaActual", DateTime.Now.Date);
@@ -52,7 +51,6 @@ namespace TrabajoFinalTPV_Eva1
         {
             mesasUsuario.Clear();
             mesasUsuarioOriginal.Clear();
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -128,7 +126,15 @@ namespace TrabajoFinalTPV_Eva1
                 if (selectedItem.SubItems.Count > 1)
                 {
                     comboBoxTipoReservas.SelectedItem = selectedItem.SubItems[1].Text;
-                    dateTimePickerReservas.Value = DateTime.Parse(selectedItem.SubItems[0].Text);
+                    DateTime selectedDate = DateTime.ParseExact(selectedItem.SubItems[0].Text, "dd/MM/yyyy", null);
+                    if (selectedDate >= dateTimePickerReservas.MinDate && selectedDate <= dateTimePickerReservas.MaxDate)
+                    {
+                        dateTimePickerReservas.Value = selectedDate;
+                    }
+                    else
+                    {
+                        MessageBox.Show("La fecha seleccionada está fuera del rango permitido.");
+                    }
                 }
             }
         }
@@ -166,7 +172,6 @@ namespace TrabajoFinalTPV_Eva1
             //Eliminar las reservas o mesas canceladas
             var mesasFaltantes = mesasUsuarioOriginal.Except(mesasUsuario).Select(mesa => mesa.Replace("btnMesa", "")).ToList();
 
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();

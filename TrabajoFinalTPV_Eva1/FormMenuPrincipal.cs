@@ -13,10 +13,12 @@ namespace TrabajoFinalTPV_Eva1
         private string productoSeleccionado = null;
         private string productoIMGPath = null;
         private string categoriaSeleccionada = null;
+        private string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
         private Form formLogin = null;
         public FormMenuPrincipal(string userName, string userType, Form formLogin)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.userType = userType;
             this.user = userName;
             this.formLogin = formLogin;
@@ -106,7 +108,7 @@ namespace TrabajoFinalTPV_Eva1
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            formLogin.Show();
+            if(formLogin != null && !formLogin.IsDisposed) formLogin.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)

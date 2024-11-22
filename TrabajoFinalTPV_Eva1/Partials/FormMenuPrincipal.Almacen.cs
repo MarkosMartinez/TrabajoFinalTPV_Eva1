@@ -56,7 +56,6 @@ namespace TrabajoFinalTPV_Eva1
             cargarCategorias();
 
             // Conectar a la base de datos de Access
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -70,7 +69,7 @@ namespace TrabajoFinalTPV_Eva1
                             ListViewItem item = new ListViewItem(reader["Producto"].ToString());
                             item.SubItems.Add(reader["Categoria"].ToString());
                             item.SubItems.Add(reader["Cantidad"].ToString());
-                            item.SubItems.Add(reader["Precio"].ToString() + "€");
+                            item.SubItems.Add(reader["Precio"].ToString());
                             listViewGAAlmacen.Items.Add(item);
                         }
                     }
@@ -114,7 +113,6 @@ namespace TrabajoFinalTPV_Eva1
         {
             if (productoSeleccionado != null)
             {
-                string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
                     connection.Open();
@@ -169,13 +167,12 @@ namespace TrabajoFinalTPV_Eva1
 
         private void btnGAAddModify_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxGAProducto.Text) || comboBoxGACategoria.SelectedIndex == -1 || string.IsNullOrEmpty(textBoxGACantidad.Text) || string.IsNullOrEmpty(textBoxGAPrecio.Text) || !int.TryParse(textBoxGACantidad.Text, out _) || !decimal.TryParse(textBoxGAPrecio.Text, out _))
+            if (string.IsNullOrEmpty(textBoxGAProducto.Text) || comboBoxGACategoria.SelectedIndex == -1 || string.IsNullOrEmpty(textBoxGACantidad.Text) || !int.TryParse(textBoxGACantidad.Text, out int cantidad) || cantidad <= 0 || string.IsNullOrEmpty(textBoxGAPrecio.Text) || !decimal.TryParse(textBoxGAPrecio.Text, out decimal precio) || precio < 0)
             {
-                MessageBox.Show("Rellene todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Rellene todos los campos o comprueba que sean validos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -193,7 +190,7 @@ namespace TrabajoFinalTPV_Eva1
                         {
                             commandUpdate.Parameters.AddWithValue("@Categoria", comboBoxGACategoria.SelectedItem.ToString());
                             commandUpdate.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
-                            commandUpdate.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                            commandUpdate.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text.Trim().Replace('.', ','));
                             commandUpdate.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
                             commandUpdate.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
                             commandUpdate.ExecuteNonQuery();
@@ -202,14 +199,14 @@ namespace TrabajoFinalTPV_Eva1
                     }
                     else
                     {
-                        // Producto no existe, insertar
+                        // Si el producto no existe, insertar
                         string queryInsert = "INSERT INTO Almacen (Producto, Categoria, Cantidad, Precio, imgPath) VALUES (?, ?, ?, ?, ?)";
                         using (OleDbCommand commandInsert = new OleDbCommand(queryInsert, connection))
                         {
                             commandInsert.Parameters.AddWithValue("@Producto", textBoxGAProducto.Text);
                             commandInsert.Parameters.AddWithValue("@Categoria", comboBoxGACategoria.SelectedItem.ToString());
                             commandInsert.Parameters.AddWithValue("@Cantidad", textBoxGACantidad.Text);
-                            commandInsert.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text);
+                            commandInsert.Parameters.AddWithValue("@Precio", textBoxGAPrecio.Text.Trim().Replace('.', ','));
                             commandInsert.Parameters.AddWithValue("@imgPath", productoIMGPath ?? (object)DBNull.Value);
                             commandInsert.ExecuteNonQuery();
                         }
@@ -284,7 +281,7 @@ namespace TrabajoFinalTPV_Eva1
         {
             try
             {
-                pictureBoxGAProducto.Image = Image.FromFile("../../../../assets/img/loading.gif");
+                pictureBoxGAProducto.Image = Image.FromFile("../../../../assets/loading.gif");
                 string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string envFilePath = Path.Combine(projectDirectory, "../../../../.env");
                 DotNetEnv.Env.Load(envFilePath);
@@ -395,7 +392,6 @@ namespace TrabajoFinalTPV_Eva1
 
         private void cargarImagen(string Producto, PictureBox pictureBox)
         {
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -437,7 +433,6 @@ namespace TrabajoFinalTPV_Eva1
         private List<string> ObtenerCategorias()
         {
             List<string> categorias = new List<string>();
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();

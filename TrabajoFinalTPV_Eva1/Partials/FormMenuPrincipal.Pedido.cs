@@ -39,7 +39,6 @@ namespace TrabajoFinalTPV_Eva1
                 dataGridViewPedido.Columns.Add("Precio", "Precio");
             }
 
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -80,7 +79,6 @@ namespace TrabajoFinalTPV_Eva1
             listViewProductos.Columns.Add("Stock", 50);
             listViewProductos.Columns.Add("Precio", 50);
 
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
 
@@ -123,6 +121,11 @@ namespace TrabajoFinalTPV_Eva1
         {
             if (listViewProductos.SelectedItems.Count == 1)
             {
+                if (int.Parse(listViewProductos.SelectedItems[0].SubItems[1].Text) <= 0)
+                {
+                    MessageBox.Show("La cantidad solicitada supera el stock disponible.", "Error de Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 string producto = listViewProductos.SelectedItems[0].SubItems[0].Text;
                 bool productoExistente = false;
                 bool errorStock = false;
@@ -180,7 +183,6 @@ namespace TrabajoFinalTPV_Eva1
         }
         private bool ComprobarCantidadStock(string producto, int cantidad)
         {
-            string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../BBDD", "Sociedad.accdb")};";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
@@ -216,24 +218,45 @@ namespace TrabajoFinalTPV_Eva1
             {
                 if (int.TryParse(textBoxPCantidad.Text, out int nuevaCantidad))
                 {
-                    if (ComprobarCantidadStock(productoSeleccionado, nuevaCantidad))
+                    if (nuevaCantidad > 0)
                     {
-                        foreach (DataGridViewRow row in dataGridViewPedido.Rows)
+                        if (ComprobarCantidadStock(productoSeleccionado, nuevaCantidad))
                         {
-                            var cell = row.Cells["Producto"];
-                            if (cell != null && cell.Value != null && cell.Value.ToString() == productoSeleccionado)
+                            foreach (DataGridViewRow row in dataGridViewPedido.Rows)
                             {
-                                Double precioUnidad = Double.Parse(row.Cells["Precio"].Value.ToString()) / Double.Parse(row.Cells["Cantidad"].Value.ToString());
-                                row.Cells["Cantidad"].Value = nuevaCantidad;
-                                row.Cells["Precio"].Value = precioUnidad * nuevaCantidad;
-                                break;
+                                var cell = row.Cells["Producto"];
+                                if (cell != null && cell.Value != null && cell.Value.ToString() == productoSeleccionado)
+                                {
+                                    Double precioUnidad = Double.Parse(row.Cells["Precio"].Value.ToString()) / Double.Parse(row.Cells["Cantidad"].Value.ToString());
+                                    row.Cells["Cantidad"].Value = nuevaCantidad;
+                                    row.Cells["Precio"].Value = precioUnidad * nuevaCantidad;
+                                    break;
+                                }
                             }
+                            actualizarPrecioTotal();
                         }
-                        actualizarPrecioTotal();
+                        else
+                        {
+                            MessageBox.Show("La cantidad solicitada supera el stock disponible.", "Error de Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("La cantidad solicitada supera el stock disponible.", "Error de Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (productoSeleccionado != null)
+                        {
+                            foreach (DataGridViewRow row in dataGridViewPedido.Rows)
+                            {
+                                var cell = row.Cells["Producto"];
+                                if (cell != null && cell.Value != null && cell.Value.ToString() == productoSeleccionado)
+                                {
+                                    dataGridViewPedido.Rows.Remove(row);
+                                    productoSeleccionado = null;
+                                    dataGridViewPedido.ClearSelection();
+                                    break;
+                                }
+                            }
+                            actualizarPrecioTotal();
+                        }
                     }
                 }
                 else
@@ -299,7 +322,7 @@ namespace TrabajoFinalTPV_Eva1
                 {
                     using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
                     {
-                        writer.WriteLine("Ticket de Compra");
+                        writer.WriteLine("Ticket de Compra de " + user);
                         writer.WriteLine($"Fecha y Hora: {DateTime.Now}");
                         writer.WriteLine(new string('*', 50));
                         writer.WriteLine("{0,-20} {1,-10} {2,-10}", "Producto", "Cantidad", "Precio");
@@ -320,6 +343,23 @@ namespace TrabajoFinalTPV_Eva1
                     }
                     MessageBox.Show("Ticket guardado correctamente!", "Ticket Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     System.Diagnostics.Process.Start("notepad.exe", saveFileDialog.FileName);
+                    using (OleDbConnection connection = new OleDbConnection(connectionString))
+                    {
+                        connection.Open();
+                        foreach (DataGridViewRow row in dataGridViewPedido.Rows)
+                        {
+                            if (row.Cells["Producto"].Value != null)
+                            {
+                                string query = "UPDATE Almacen SET Cantidad = Cantidad - ? WHERE Producto = ?";
+                                using (OleDbCommand command = new OleDbCommand(query, connection))
+                                {
+                                    command.Parameters.AddWithValue("@Cantidad", row.Cells["Cantidad"].Value);
+                                    command.Parameters.AddWithValue("@Producto", row.Cells["Producto"].Value);
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
                     dataGridViewPedido.Rows.Clear();
                     cargarCategoriaProductosPedido();
                 }

@@ -12,6 +12,7 @@ namespace TrabajoFinalTPV_Eva1
         public Form1()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             textBoxUser.KeyDown += new KeyEventHandler(textBoxUser_KeyDown);
             textBoxPass.KeyDown += new KeyEventHandler(textBoxPass_KeyDown);
         }
@@ -38,6 +39,7 @@ namespace TrabajoFinalTPV_Eva1
 
             if (isValid)
             {
+                textBoxPass.Text = string.Empty;
                 FormMenuPrincipal formMenuPrincipal = new FormMenuPrincipal(user, tipo, this);
                 formMenuPrincipal.Show();
                 this.Hide();
