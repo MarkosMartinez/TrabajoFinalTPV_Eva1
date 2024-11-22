@@ -214,27 +214,34 @@ namespace TrabajoFinalTPV_Eva1
         {
             if (productoSeleccionado != null)
             {
-                int nuevaCantidad = Int32.Parse(textBoxPCantidad.Text);
-                if (ComprobarCantidadStock(productoSeleccionado, nuevaCantidad))
+                if (int.TryParse(textBoxPCantidad.Text, out int nuevaCantidad))
                 {
-                    foreach (DataGridViewRow row in dataGridViewPedido.Rows)
+                    if (ComprobarCantidadStock(productoSeleccionado, nuevaCantidad))
                     {
-                        var cell = row.Cells["Producto"];
-                        if (cell != null && cell.Value != null && cell.Value.ToString() == productoSeleccionado)
+                        foreach (DataGridViewRow row in dataGridViewPedido.Rows)
                         {
-                            Double precioUnidad = Double.Parse(row.Cells["Precio"].Value.ToString()) / Double.Parse(row.Cells["Cantidad"].Value.ToString());
-                            row.Cells["Cantidad"].Value = nuevaCantidad;
-                            row.Cells["Precio"].Value = precioUnidad * nuevaCantidad;
-                            break;
+                            var cell = row.Cells["Producto"];
+                            if (cell != null && cell.Value != null && cell.Value.ToString() == productoSeleccionado)
+                            {
+                                Double precioUnidad = Double.Parse(row.Cells["Precio"].Value.ToString()) / Double.Parse(row.Cells["Cantidad"].Value.ToString());
+                                row.Cells["Cantidad"].Value = nuevaCantidad;
+                                row.Cells["Precio"].Value = precioUnidad * nuevaCantidad;
+                                break;
+                            }
                         }
+                        actualizarPrecioTotal();
                     }
-                    actualizarPrecioTotal();
+                    else
+                    {
+                        MessageBox.Show("La cantidad solicitada supera el stock disponible.", "Error de Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("La cantidad solicitada supera el stock disponible.", "Error de Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Por favor, ingrese un número válido en la cantidad.", "Error de Entrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+
         }
 
         private void buttonPEliminarProducto_Click(object sender, EventArgs e)
@@ -312,6 +319,7 @@ namespace TrabajoFinalTPV_Eva1
                         writer.WriteLine($"Precio Total: {textBoxPTotal.Text}€");
                     }
                     MessageBox.Show("Ticket guardado correctamente!", "Ticket Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start("notepad.exe", saveFileDialog.FileName);
                     dataGridViewPedido.Rows.Clear();
                     cargarCategoriaProductosPedido();
                 }

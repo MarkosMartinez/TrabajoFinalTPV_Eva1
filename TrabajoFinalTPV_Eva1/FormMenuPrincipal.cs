@@ -106,8 +106,7 @@ namespace TrabajoFinalTPV_Eva1
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            Form1 form1 = new Form1();
-            form1.Show();
+            formLogin.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
