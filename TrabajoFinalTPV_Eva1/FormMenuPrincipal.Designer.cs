@@ -85,6 +85,7 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
+            btnImprimir = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -116,9 +117,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxReservas);
             splitContainer1.Panel2.Controls.Add(groupBoxPedido);
-            splitContainer1.Panel2.Controls.Add(groupBoxAlmacen);
             splitContainer1.Panel2.Controls.Add(groupBoxUsuarios);
             splitContainer1.Size = new Size(797, 449);
             splitContainer1.SplitterDistance = 152;
@@ -561,6 +562,7 @@
             // 
             // groupBoxAlmacen
             // 
+            groupBoxAlmacen.Controls.Add(btnImprimir);
             groupBoxAlmacen.Controls.Add(comboBoxGACategoria);
             groupBoxAlmacen.Controls.Add(btnAInfo);
             groupBoxAlmacen.Controls.Add(btnGABuscarIMG);
@@ -796,6 +798,19 @@
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
             // 
+            // btnImprimir
+            // 
+            btnImprimir.BackgroundImage = Properties.Resources.printer;
+            btnImprimir.BackgroundImageLayout = ImageLayout.Zoom;
+            btnImprimir.FlatAppearance.BorderSize = 0;
+            btnImprimir.FlatStyle = FlatStyle.Flat;
+            btnImprimir.Location = new Point(555, 13);
+            btnImprimir.Name = "btnImprimir";
+            btnImprimir.Size = new Size(37, 29);
+            btnImprimir.TabIndex = 15;
+            btnImprimir.UseVisualStyleBackColor = true;
+            btnImprimir.Click += btnImprimir_Click;
+            // 
             // FormMenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -882,5 +897,6 @@
         private Button btnPInfo;
         private Label labelTipo;
         private Label labelFecha;
+        private Button btnImprimir;
     }
 }

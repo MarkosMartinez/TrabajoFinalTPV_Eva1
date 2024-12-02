@@ -2,6 +2,9 @@
 using System.Text.Json;
 using System.Windows.Forms;
 using DotNetEnv;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Image = System.Drawing.Image;
 
 namespace TrabajoFinalTPV_Eva1
 {
@@ -450,5 +453,71 @@ namespace TrabajoFinalTPV_Eva1
             }
             return categorias;
         }
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "PDF (*.pdf)|*.pdf";
+                saveFileDialog.FileName = "Almacen";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    using (Document document = new Document())
+                    {
+                        PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+                        document.Open();
+                        PdfPTable table = new PdfPTable(5);
+
+                        table.AddCell("Producto");
+                        table.AddCell("Categoria");
+                        table.AddCell("Cantidad");
+                        table.AddCell("Precio");
+                        table.AddCell("Minimo Disponible");
+
+                        using (OleDbConnection connection = new OleDbConnection(connectionString))
+                        {
+                            connection.Open();
+                            string query = "SELECT * FROM Almacen";
+                            using (OleDbCommand command = new OleDbCommand(query, connection))
+                            {
+                                using (OleDbDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        PdfPCell cellProducto = new PdfPCell(new Phrase(reader["Producto"].ToString()));
+                                        PdfPCell cellCategoria = new PdfPCell(new Phrase(reader["Categoria"].ToString()));
+                                        PdfPCell cellCantidad = new PdfPCell(new Phrase(reader["Cantidad"].ToString()));
+                                        PdfPCell cellPrecio = new PdfPCell(new Phrase(reader["Precio"].ToString()));
+                                        PdfPCell cellMinimoDisponible = new PdfPCell(new Phrase(reader["MinimoDisponible"].ToString()));
+
+                                        int cantidad = int.Parse(reader["Cantidad"].ToString());
+                                        int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString());
+
+                                        if (cantidad < minimoDisponible)
+                                        {
+                                            cellProducto.BackgroundColor = BaseColor.RED;
+                                            cellCategoria.BackgroundColor = BaseColor.RED;
+                                            cellCantidad.BackgroundColor = BaseColor.RED;
+                                            cellPrecio.BackgroundColor = BaseColor.RED;
+                                            cellMinimoDisponible.BackgroundColor = BaseColor.RED;
+                                        }
+
+                                        table.AddCell(cellProducto);
+                                        table.AddCell(cellCategoria);
+                                        table.AddCell(cellCantidad);
+                                        table.AddCell(cellPrecio);
+                                        table.AddCell(cellMinimoDisponible);
+                                    }
+                                }
+                            }
+                        }
+
+                        document.Add(table);
+                    }
+                    MessageBox.Show("PDF generado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
     }
 }

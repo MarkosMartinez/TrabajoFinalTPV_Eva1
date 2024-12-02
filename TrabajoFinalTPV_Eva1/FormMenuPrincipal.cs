@@ -108,7 +108,7 @@ namespace TrabajoFinalTPV_Eva1
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            if(formLogin != null && !formLogin.IsDisposed) formLogin.Show();
+            if (formLogin != null && !formLogin.IsDisposed) formLogin.Show();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -117,6 +117,6 @@ namespace TrabajoFinalTPV_Eva1
             this.Close();
         }
 
-
+        
     }
 }
