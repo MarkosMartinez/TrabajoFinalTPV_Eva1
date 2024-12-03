@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using DotNetEnv;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.draw;
 using Image = System.Drawing.Image;
 
 namespace TrabajoFinalTPV_Eva1
@@ -462,17 +463,20 @@ namespace TrabajoFinalTPV_Eva1
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = saveFileDialog.FileName;
-                    using (Document document = new Document())
+                    using (Document document = new Document(PageSize.A4))
                     {
                         PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
                         document.Open();
-                        PdfPTable table = new PdfPTable(5);
 
-                        table.AddCell("Producto");
-                        table.AddCell("Categoria");
-                        table.AddCell("Cantidad");
-                        table.AddCell("Precio");
-                        table.AddCell("Minimo Disponible");
+                        var fontDefault = FontFactory.GetFont(FontFactory.COURIER, 10, BaseColor.BLACK);
+                        var fontRed = FontFactory.GetFont(FontFactory.COURIER, 10, BaseColor.RED);
+
+                        string titles = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
+                            "Producto", "Categoria", "Cantidad", "Precio", "Minimo Disponible");
+                        document.Add(new Paragraph(titles, fontDefault));
+
+                        Paragraph separator = new Paragraph(new Chunk(new LineSeparator(1.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_CENTER, 1)));
+                        document.Add(separator);
 
                         using (OleDbConnection connection = new OleDbConnection(connectionString))
                         {
@@ -484,40 +488,28 @@ namespace TrabajoFinalTPV_Eva1
                                 {
                                     while (reader.Read())
                                     {
-                                        PdfPCell cellProducto = new PdfPCell(new Phrase(reader["Producto"].ToString()));
-                                        PdfPCell cellCategoria = new PdfPCell(new Phrase(reader["Categoria"].ToString()));
-                                        PdfPCell cellCantidad = new PdfPCell(new Phrase(reader["Cantidad"].ToString()));
-                                        PdfPCell cellPrecio = new PdfPCell(new Phrase(reader["Precio"].ToString()));
-                                        PdfPCell cellMinimoDisponible = new PdfPCell(new Phrase(reader["MinimoDisponible"].ToString()));
-
+                                        string producto = reader["Producto"].ToString();
+                                        string categoria = reader["Categoria"].ToString();
                                         int cantidad = int.Parse(reader["Cantidad"].ToString());
+                                        decimal precio = decimal.Parse(reader["Precio"].ToString());
                                         int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString());
 
-                                        if (cantidad < minimoDisponible)
-                                        {
-                                            cellProducto.BackgroundColor = BaseColor.RED;
-                                            cellCategoria.BackgroundColor = BaseColor.RED;
-                                            cellCantidad.BackgroundColor = BaseColor.RED;
-                                            cellPrecio.BackgroundColor = BaseColor.RED;
-                                            cellMinimoDisponible.BackgroundColor = BaseColor.RED;
-                                        }
+                                        string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
+                                            producto, categoria, cantidad, precio, minimoDisponible);
 
-                                        table.AddCell(cellProducto);
-                                        table.AddCell(cellCategoria);
-                                        table.AddCell(cellCantidad);
-                                        table.AddCell(cellPrecio);
-                                        table.AddCell(cellMinimoDisponible);
+                                        iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
+
+                                        document.Add(new Paragraph(row, fontToUse));
                                     }
                                 }
                             }
                         }
-
-                        document.Add(table);
                     }
                     MessageBox.Show("PDF generado correctamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
+
 
     }
 }
