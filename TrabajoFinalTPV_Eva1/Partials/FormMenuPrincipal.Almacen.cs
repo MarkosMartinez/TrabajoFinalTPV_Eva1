@@ -5,6 +5,7 @@ using DotNetEnv;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.draw;
+using Npgsql;
 using Image = System.Drawing.Image;
 
 namespace TrabajoFinalTPV_Eva1
@@ -478,21 +479,21 @@ namespace TrabajoFinalTPV_Eva1
                         Paragraph separator = new Paragraph(new Chunk(new LineSeparator(1.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_CENTER, 1)));
                         document.Add(separator);
 
-                        using (OleDbConnection connection = new OleDbConnection(connectionString))
+                        using (NpgsqlConnection connection = new NpgsqlConnection("Host=localhost;Port=5432;Username=2dam3;Password=2dam3;Database=tpv;"))
                         {
                             connection.Open();
-                            string query = "SELECT * FROM Almacen";
-                            using (OleDbCommand command = new OleDbCommand(query, connection))
+                            string query = "SELECT * FROM almacen";
+                            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                             {
-                                using (OleDbDataReader reader = command.ExecuteReader())
+                                using (NpgsqlDataReader reader = command.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
-                                        string producto = reader["Producto"].ToString();
-                                        string categoria = reader["Categoria"].ToString();
-                                        int cantidad = int.Parse(reader["Cantidad"].ToString());
-                                        decimal precio = decimal.Parse(reader["Precio"].ToString());
-                                        int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString());
+                                        string producto = reader["Producto"].ToString() ?? string.Empty;
+                                        string categoria = reader["Categoria"].ToString() ?? string.Empty;
+                                        int cantidad = int.Parse(reader["Cantidad"].ToString() ?? "0");
+                                        decimal precio = decimal.Parse(reader["Precio"].ToString() ?? "0");
+                                        int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString() ?? "0");
 
                                         string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
                                             producto, categoria, cantidad, precio, minimoDisponible);
