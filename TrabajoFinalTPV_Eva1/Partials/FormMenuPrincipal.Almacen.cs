@@ -501,9 +501,9 @@ namespace TrabajoFinalTPV_Eva1
                                             string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
                                                 producto, categoria, cantidad, precio, minimoDisponible);
 
-                                            iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
+                                            iTextSharp.text.Font fuenteAUsar = cantidad < minimoDisponible ? fontRed : fontDefault;
 
-                                            document.Add(new Paragraph(row, fontToUse));
+                                            document.Add(new Paragraph(row, fuenteAUsar));
                                         }
                                     }
                                 }
@@ -530,9 +530,9 @@ namespace TrabajoFinalTPV_Eva1
                                             string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
                                                 producto, categoria, cantidad, precio, minimoDisponible);
 
-                                            iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
+                                            iTextSharp.text.Font fuenteAUsar = cantidad < minimoDisponible ? fontRed : fontDefault;
 
-                                            document.Add(new Paragraph(row, fontToUse));
+                                            document.Add(new Paragraph(row, fuenteAUsar));
                                         }
                                     }
                                 }

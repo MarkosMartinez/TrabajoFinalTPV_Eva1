@@ -36,7 +36,6 @@
             btnPedido = new Button();
             btnReservas = new Button();
             groupBoxAlmacen = new GroupBox();
-            comboBoxDB = new ComboBox();
             btnImprimir = new Button();
             comboBoxGACategoria = new ComboBox();
             btnAInfo = new Button();
@@ -87,6 +86,7 @@
             listViewGUUsuarios = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
+            comboBoxDB = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -229,15 +229,6 @@
             groupBoxAlmacen.TabStop = false;
             groupBoxAlmacen.Text = "Almacen";
             groupBoxAlmacen.Visible = false;
-            // 
-            // comboBoxDB
-            // 
-            comboBoxDB.FormattingEnabled = true;
-            comboBoxDB.Items.AddRange(new object[] { "Access", "PostgreSQL" });
-            comboBoxDB.Location = new Point(449, 19);
-            comboBoxDB.Name = "comboBoxDB";
-            comboBoxDB.Size = new Size(100, 23);
-            comboBoxDB.TabIndex = 16;
             // 
             // btnImprimir
             // 
@@ -821,6 +812,16 @@
             listViewGUUsuarios.TabIndex = 0;
             listViewGUUsuarios.UseCompatibleStateImageBehavior = false;
             listViewGUUsuarios.SelectedIndexChanged += listViewGUUsuarios_SelectedIndexChanged;
+            // 
+            // comboBoxDB
+            // 
+            comboBoxDB.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxDB.FormattingEnabled = true;
+            comboBoxDB.Items.AddRange(new object[] { "Access", "PostgreSQL" });
+            comboBoxDB.Location = new Point(449, 19);
+            comboBoxDB.Name = "comboBoxDB";
+            comboBoxDB.Size = new Size(100, 23);
+            comboBoxDB.TabIndex = 16;
             // 
             // FormMenuPrincipal
             // 
