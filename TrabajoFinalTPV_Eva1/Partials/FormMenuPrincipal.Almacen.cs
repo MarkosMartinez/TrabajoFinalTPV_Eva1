@@ -27,6 +27,7 @@ namespace TrabajoFinalTPV_Eva1
                 comboBoxGACategoria.Items.Add(categoria);
             }
             comboBoxGACategoria.Items.Add("Nueva categoria");
+            comboBoxDB.SelectedIndex = 0;
         }
 
         private void comboBoxGACategoria_SelectedIndexChanged(object sender, EventArgs e)
@@ -479,28 +480,60 @@ namespace TrabajoFinalTPV_Eva1
                         Paragraph separator = new Paragraph(new Chunk(new LineSeparator(1.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_CENTER, 1)));
                         document.Add(separator);
 
-                        using (NpgsqlConnection connection = new NpgsqlConnection("Host=localhost;Port=5432;Username=2dam3;Password=2dam3;Database=tpv;"))
+                        if (comboBoxDB.SelectedItem.ToString() == "PostgreSQL")
                         {
-                            connection.Open();
-                            string query = "SELECT * FROM almacen";
-                            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+                            using (NpgsqlConnection connection = new NpgsqlConnection("Host=localhost;Port=5432;Username=2dam3;Password=2dam3;Database=tpv;"))
                             {
-                                using (NpgsqlDataReader reader = command.ExecuteReader())
+                                connection.Open();
+                                string query = "SELECT * FROM almacen";
+                                using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                                 {
-                                    while (reader.Read())
+                                    using (NpgsqlDataReader reader = command.ExecuteReader())
                                     {
-                                        string producto = reader["Producto"].ToString() ?? string.Empty;
-                                        string categoria = reader["Categoria"].ToString() ?? string.Empty;
-                                        int cantidad = int.Parse(reader["Cantidad"].ToString() ?? "0");
-                                        decimal precio = decimal.Parse(reader["Precio"].ToString() ?? "0");
-                                        int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString() ?? "0");
+                                        while (reader.Read())
+                                        {
+                                            string producto = reader["Producto"].ToString() ?? string.Empty;
+                                            string categoria = reader["Categoria"].ToString() ?? string.Empty;
+                                            int cantidad = int.Parse(reader["Cantidad"].ToString() ?? "0");
+                                            decimal precio = decimal.Parse(reader["Precio"].ToString() ?? "0");
+                                            int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString() ?? "0");
 
-                                        string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
-                                            producto, categoria, cantidad, precio, minimoDisponible);
+                                            string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
+                                                producto, categoria, cantidad, precio, minimoDisponible);
 
-                                        iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
+                                            iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
 
-                                        document.Add(new Paragraph(row, fontToUse));
+                                            document.Add(new Paragraph(row, fontToUse));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (comboBoxDB.SelectedItem.ToString() == "Access")
+                        {
+                            using (OleDbConnection connection = new OleDbConnection(connectionString))
+                            {
+                                connection.Open();
+                                string query = "SELECT Producto, Categoria, Precio, Cantidad, MinimoDisponible FROM Almacen";
+                                using (OleDbCommand command = new OleDbCommand(query, connection))
+                                {
+                                    using (OleDbDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            string producto = reader["Producto"].ToString() ?? string.Empty;
+                                            string categoria = reader["Categoria"].ToString() ?? string.Empty;
+                                            int cantidad = int.Parse(reader["Cantidad"].ToString() ?? "0");
+                                            decimal precio = decimal.Parse(reader["Precio"].ToString() ?? "0");
+                                            int minimoDisponible = int.Parse(reader["MinimoDisponible"].ToString() ?? "0");
+
+                                            string row = string.Format("{0,-25} {1,-20} {2,-10} {3,-10} {4,-20}",
+                                                producto, categoria, cantidad, precio, minimoDisponible);
+
+                                            iTextSharp.text.Font fontToUse = cantidad < minimoDisponible ? fontRed : fontDefault;
+
+                                            document.Add(new Paragraph(row, fontToUse));
+                                        }
                                     }
                                 }
                             }
